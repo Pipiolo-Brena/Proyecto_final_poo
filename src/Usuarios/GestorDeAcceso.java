@@ -9,5 +9,7 @@ package Usuarios;
  * @author
  */
 public interface GestorDeAcceso {
+    boolean validarContraseña(String contraseña);
+    void recuperarContraseña();
     
 }

@@ -4,6 +4,8 @@
  */
 package Pagos.Linea;
 
+import java.time.LocalDateTime;
+
 import Pagos.PagosLinea;
 
 /**
@@ -12,4 +14,16 @@ import Pagos.PagosLinea;
  */
 public class TarjetaCredito extends PagosLinea {
     
+    private double saldoDeuda;
+
+    @Override
+    public boolean validarPago(double monto) {
+        
+        return true;
+    }
+
+    @Override
+    public void realizarPago(double monto) {
+        saldoDeuda += monto;
+    }
 }

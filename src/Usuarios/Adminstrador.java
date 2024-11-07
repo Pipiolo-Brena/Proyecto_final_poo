@@ -4,6 +4,7 @@
  */
 package Usuarios;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Sistema.GestionReservas;
@@ -26,7 +27,8 @@ public class Adminstrador extends Usuario {
         this.nombre = nombre;
         this.apellido = apellido;
         this.numEmpleado = numEmpleado;
-    
+        this.listaClientes = new ArrayList<>();
+        
     }
 
     @Override

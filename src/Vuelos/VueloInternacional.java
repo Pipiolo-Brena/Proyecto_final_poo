@@ -31,7 +31,7 @@ public class VueloInternacional extends Vuelo {
         this.destinoPais = destinoPais;
     }
 
-    public boolean isRequiereVisa() {
+    public boolean RequiereVisa() {
         return requiereVisa;
     }
 

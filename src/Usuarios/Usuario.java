@@ -10,8 +10,8 @@ import Usuarios.GestorDeAcceso;
  * @author
  */
 public abstract class Usuario implements GestorDeAcceso {
-    private String nombreUsuario;
-    private String contraseña;
+    protected String nombreUsuario;
+    protected String contraseña;
 
     //constructor
     public Usuario(String nombreUsuario, String contraseña) {

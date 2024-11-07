@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Usuarios;
+import java.util.ArrayList;
 import java.util.List;
 import Pagos.MetodosPago;
 import Sistema.GestionReservas;
@@ -26,7 +27,8 @@ public class Cliente extends Usuario {
         super(nombreUsuario, contraseña);
         this.nombre = nombre;
         this.apellido = apellido;
-        this.baseReservas = baseReservas;
+        this.vuelosComprados = new ArrayList<>();
+        this.ticketsGenerados = new ArrayList<>();
         
     }
 

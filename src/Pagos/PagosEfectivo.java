@@ -8,6 +8,30 @@ package Pagos;
  *
  * @author PC
  */
-public class PagosEfectivo {
-    
+public abstract class PagosEfectivo {
+    protected double monto;
+    protected boolean pagado;
+
+    //constructor
+    public PagosEfectivo(double monto) {
+        this.monto = monto;
+        this.pagado = false;
+    }
+
+    //para pago en oxxo
+    public abstract boolean realizarPagoEnOxxo(String codigoPago);
+    public abstract String codigoPago(String codigoPago);
+
+    public boolean Pagado() {
+        return pagado;
+    }
+
+    public double getMonto() {
+        return monto;
+    }
+
+    public void setMonto(double monto) {
+        this.monto = monto;
+    }
+
 }

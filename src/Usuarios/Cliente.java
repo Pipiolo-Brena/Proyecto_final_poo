@@ -27,7 +27,6 @@ public class Cliente extends Usuario {
         super(nombreUsuario, contraseña);
         this.nombre = nombre;
         this.apellido = apellido;
-        this.vuelosComprados = new ArrayList<>();
         this.ticketsGenerados = new ArrayList<>();
         
     }

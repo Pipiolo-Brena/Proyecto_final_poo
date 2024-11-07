@@ -9,6 +9,7 @@ package Pagos;
  * @author PC
  */
 public interface MetodosPago {
+    boolean formaDePago();
     boolean realizarPagoEnOxxo(double monto);
     boolean validarPago(double monto);
     void realizarPago(double monto);

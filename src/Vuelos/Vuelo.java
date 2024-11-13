@@ -14,6 +14,8 @@ public class Vuelo {
     private String aerolinea;
     private String numVuelo;
     private String origen;
+    private String destino;
+
     private LocalDateTime fechaSalida;
     protected double precio;
     protected int disponibilidad;
@@ -22,10 +24,11 @@ public class Vuelo {
 
 
     //constructor
-    public Vuelo(String aerolinea, String numVuelo, String origen, LocalDateTime fechaSalida, double precio, int disponibilidad, int escalas, boolean vueloNacional) {
+    public Vuelo(String aerolinea, String numVuelo, String origen, String destino, LocalDateTime fechaSalida, double precio, int disponibilidad, int escalas, boolean vueloNacional) {
         this.aerolinea = aerolinea;
         this.numVuelo = numVuelo;
         this.origen = origen;
+        this.destino = destino;
         this.fechaSalida = fechaSalida;
         this.precio = precio;
         this.disponibilidad = disponibilidad;
@@ -33,6 +36,17 @@ public class Vuelo {
         this.vueloNacional = vueloNacional;
     }
 
+    //metodos
+    public void mostrarDetalles(){
+        System.out.println("Aerolinea: " + getAerolinea() + 
+        "Numm. de vuelo:" + getNumVuelo() + 
+        "Parte de: " + getOrigen() + 
+        "Llega a: " + getDestino() + 
+        "Escalas " + getEscalas() + 
+        "Fecha de salida: " + getFechaSalida() + 
+        "Precio: " + getPrecio());
+        
+    }
 
     //setters getters
     public String getAerolinea() {
@@ -54,6 +68,14 @@ public class Vuelo {
     }
     public void setOrigen(String origen) {
         this.origen = origen;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
     }
 
     public LocalDateTime getFechaSalida() {

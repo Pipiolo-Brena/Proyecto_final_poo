@@ -11,11 +11,15 @@ package Extras;
 public class Hoteles {
     private String nombre;
     private String ubicacion;
+    private Double precio;
+    
+
     private int habitacionesDisponibles;//no se si este atributo sea viable o se hace con una lista  que omite
 
-    public Hoteles(String nombre, String ubicacion, int habitacionesDisponibles) {
+    public Hoteles(String nombre, String ubicacion, Double precio, int habitacionesDisponibles) {
         this.nombre = nombre;
         this.ubicacion = ubicacion;
+        this.precio = precio;
         this.habitacionesDisponibles = habitacionesDisponibles;
     }
 
@@ -47,6 +51,15 @@ public class Hoteles {
 
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
+    }
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
     }
 
     public int getHabitacionesDisponibles() {

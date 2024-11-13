@@ -4,12 +4,6 @@
  */
 package Usuarios;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import Sistema.GestionReservas;
-import Vuelos.Vuelo;
-
 /**
  *
  * @author PC
@@ -17,14 +11,12 @@ import Vuelos.Vuelo;
 public class Adminstrador extends Usuario {
     private String nombre;
     private String apellido;
-    private int numEmpleado;
     
     //constructor
-    public Adminstrador(String nombreUsuario, String contraseña, String nombre, String apellido, int numEmpleado) {
-        super(nombreUsuario, contraseña);
+    public Adminstrador(String nombreUsuario, String contraseña, String nombre, String apellido, String numEmpleado) {
+        super( numEmpleado,nombre,  apellido,nombreUsuario, contraseña);
         this.nombre = nombre;
         this.apellido = apellido;
-        this.numEmpleado = numEmpleado;
     }
 
     @Override
@@ -69,14 +61,4 @@ public class Adminstrador extends Usuario {
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
-
-    public int getNumEmpleado() {
-        return numEmpleado;
-    }
-
-
-    public void setNumEmpleado(int numEmpleado) {
-        this.numEmpleado = numEmpleado;
-    }
-
 }

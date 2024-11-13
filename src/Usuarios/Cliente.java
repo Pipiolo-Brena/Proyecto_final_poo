@@ -15,20 +15,16 @@ import Vuelos.Vuelo;
  * @author
  */
 public class Cliente extends Usuario {
-    private String nombre;
-    private String apellido;
-    private List<Vuelo> baseVuelos; //vuelos disponibles
+    private List<Vuelo> baseVuelos; //vuelos suscritos
     private List<Ticket> ticketsGenerados; //ticket
     private MetodosPago formaDePago; //pagos Linea o efectivo
     private GestionReservas baseReservas;//reservas
 
     //constructor
-    public Cliente(String nombreUsuario, String contraseña, String nombre, String apellido, GestionReservas baseReservas) {
-        super(nombreUsuario, contraseña);
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.ticketsGenerados = new ArrayList<>();
-        
+    public Cliente(String numCliente,String nombreUsuario, String contraseña, String nombre, String apellido, MetodosPago formaDePago) {
+        super(numCliente,nombre,apellido,nombreUsuario, contraseña);
+        this.formaDePago=formaDePago;
+        this.ticketsGenerados = new ArrayList<>();   
     }
 
     
@@ -47,19 +43,10 @@ public class Cliente extends Usuario {
         
     }
 
-    public void verVuelosDisponibles() {
-        baseVuelos.mostrarVuelos();
-    }
 
     public void comprarVuelo(Vuelo vuelo) {
         
-    }
-
-    @Override
-    public String toString() {
-        return "Cliente: " + nombre + " " + apellido;
-    }
-    
+    }   
 
     //getters setters
     public String getNombreUsuario() {
@@ -70,24 +57,5 @@ public class Cliente extends Usuario {
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
 
 }

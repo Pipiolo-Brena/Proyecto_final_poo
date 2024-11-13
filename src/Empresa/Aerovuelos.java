@@ -1,6 +1,7 @@
 package Empresa;
 
 import Usuarios.Usuario;
+import Usuarios.Cliente;
 import java.util.HashMap;
 
 
@@ -52,7 +53,7 @@ public class Aerovuelos {
      * @param telefono Teléfono del cliente.
      */
     public void registrarCliente(String numCliente,String nombre,String aPaterno,String aMaterno,String direccion,String telefono){
-        Usuario cliente = new Usuario(numCliente, nombre,aPaterno,  aMaterno,direccion,telefono);
+        Usuario cliente = new Cliente(numCliente, nombreUsuario,  contraseña,  nombre,  apellido,  formaDePago);
         agregarCliente(numCliente, cliente);
         System.out.println("Registro exitoso.\n");
     }

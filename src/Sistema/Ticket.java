@@ -5,7 +5,7 @@
 package Sistema;
 
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 import Usuarios.Cliente;
 
@@ -18,14 +18,15 @@ public class Ticket {
     private Cliente cliente;
     private String numVuelo;
     private LocalDateTime fechaCompra;
-    private List<Ticket> ticketsGenerados; //ticket
+    private String lugar;
 
     //constructor
-    public Ticket(int idTicket, Cliente cliente, String numVuelo, LocalDateTime fechaCompra) {
+    public Ticket(int idTicket, Cliente cliente, String numVuelo, LocalDateTime fechaCompra, String lugar) {
         this.idTicket = idTicket;
         this.cliente = cliente;
         this.numVuelo = numVuelo;
         this.fechaCompra = fechaCompra;
+        this.lugar=lugar;
     }
 
     //setters getters
@@ -59,14 +60,6 @@ public class Ticket {
 
     public void setFechaCompra(LocalDateTime fechaCompra) {
         this.fechaCompra = fechaCompra;
-    }
-
-    public List<Ticket> getTicketsGenerados() {
-        return ticketsGenerados;
-    }
-
-    public void setTicketsGenerados(List<Ticket> ticketsGenerados) {
-        this.ticketsGenerados = ticketsGenerados;
     }
 
 

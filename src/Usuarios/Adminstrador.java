@@ -20,7 +20,7 @@ public class Adminstrador extends Usuario {
     private int numEmpleado;
     
     //constructor
-    public Administrador(String nombreUsuario, String contraseña, String nombre, String apellido, int numEmpleado) {
+    public Adminstrador(String nombreUsuario, String contraseña, String nombre, String apellido, int numEmpleado) {
         super(nombreUsuario, contraseña);
         this.nombre = nombre;
         this.apellido = apellido;

@@ -34,7 +34,6 @@ public class TerjataDebito extends PagosLinea {
         }
     }
 
-
     //getters setters
     public double getSaldo() {
         return saldo;

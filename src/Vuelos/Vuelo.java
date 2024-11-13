@@ -45,7 +45,7 @@ public class Vuelo {
         "Escalas " + getEscalas() + 
         "Fecha de salida: " + getFechaSalida() + 
         "Precio: " + getPrecio());
-        
+    
     }
 
     //setters getters

@@ -16,8 +16,8 @@ public class VueloInternacional extends Vuelo {
 
     
     //constructor
-    public VueloInternacional(String aerolinea, String numVuelo, String origen, String destinoPais, boolean requiereVisa, LocalDateTime fechaSalida, double precio, int disponibilidad, int escalas) {
-        super(aerolinea, numVuelo, origen, fechaSalida, precio, disponibilidad, escalas, false);
+    public VueloInternacional(String aerolinea, String numVuelo, String origen, String destino, String destinoPais, boolean requiereVisa, LocalDateTime fechaSalida, double precio, int disponibilidad, int escalas) {
+        super(aerolinea, numVuelo, origen, destino,fechaSalida, precio, disponibilidad, escalas, false);
         this.destinoPais = destinoPais;
         this.requiereVisa = requiereVisa;
     }

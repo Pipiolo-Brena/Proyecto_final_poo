@@ -15,8 +15,8 @@ public class VueloNacional extends Vuelo {
 
     
 
-    public VueloNacional(String aerolinea, String numVuelo, String origen, String destinoEstado, LocalDateTime fechaSalida, double precio, int disponibilidad, int escalas) {
-        super(aerolinea, numVuelo, origen, fechaSalida, precio, disponibilidad, escalas, true);
+    public VueloNacional(String aerolinea, String numVuelo, String origen, String destino, String destinoEstado, LocalDateTime fechaSalida, double precio, int disponibilidad, int escalas) {
+        super(aerolinea, numVuelo, origen, destino, fechaSalida, precio, disponibilidad, escalas, true);
         this.destinoEstado = destinoEstado;
     }
 

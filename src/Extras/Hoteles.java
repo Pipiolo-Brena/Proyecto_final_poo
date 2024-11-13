@@ -21,6 +21,14 @@ public class Hoteles {
 
 
     //Metodos de reserva
+    public void reservarHabitacion() {
+        if (habitacionesDisponibles > 0) {
+            habitacionesDisponibles--;
+        } else {
+            System.out.println("No hay habitaciones disponibles.");
+        }
+    }
+
 
     //setters getters
 

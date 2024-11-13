@@ -9,11 +9,22 @@ package Extras;
  * @author PC
  */
 public class Notifiaciones {
-    /*public void enviarNotificacionEmail(String email, String mensaje) {
-        
-    }
-     no se si asi deba de ser. o no, pero por eso lo dejo como comentario
-    public void enviarNotificacionTelefono(String telefono, String mensaje) {
-        
+    /*private static Notificaciones instancia;
+
+    private Notificaciones() { }
+
+    public static Notificaciones obtenerInstancia() {
+        if (instancia == null) {
+            instancia = new Notificaciones();
+        }
+        return instancia;
     }*/
+
+    public void enviarEmail(String email, String mensaje) {
+        System.out.println("Enviando correo a " + email + ": " + mensaje);
+    }
+
+    public void enviarSms(String telefono, String mensaje) {
+        System.out.println("Enviando SMS a " + telefono + ": " + mensaje);
+    }
 }

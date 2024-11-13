@@ -18,8 +18,6 @@ public class Adminstrador extends Usuario {
     private String nombre;
     private String apellido;
     private int numEmpleado;
-    private List<Cliente> listaClientes;//registro clientes
-    private List<Vuelo> baseVuelos; //vuelos disponibles
     
     //constructor
     public Adminstrador(String nombreUsuario, String contraseña, String nombre, String apellido, int numEmpleado) {
@@ -27,8 +25,6 @@ public class Adminstrador extends Usuario {
         this.nombre = nombre;
         this.apellido = apellido;
         this.numEmpleado = numEmpleado;
-        this.listaClientes = new ArrayList<>();
-        
     }
 
     @Override
@@ -41,25 +37,10 @@ public class Adminstrador extends Usuario {
         
     }
 
-    public void verVuelosDisponibles() {
-        baseVuelos.mostrarVuelos();
-    }
-
-    public void agregarVuelos(Vuelo vuelo) {
-        baseVuelos.registrarVuelo(vuelo);
-    }
-
-    public void eliminarVuelos(String numVuelo) {
-        baseVuelos.eliminarVuelo(numVuelo);
-    }
-
     public void verInformacionClientes() {
         
     }
 
-    public void eliminarCliente(Cliente cliente) {
-        listaClientes.remove(cliente);
-    }
 
     //getters setters
     public String getNombreUsuario() {

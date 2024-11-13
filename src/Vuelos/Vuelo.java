@@ -15,9 +15,8 @@ public class Vuelo {
     private String numVuelo;
     private String origen;
     private String destino;
-
     private LocalDateTime fechaSalida;
-    protected double precio;
+    protected Double precio;
     protected int disponibilidad;
     protected int escalas;
     protected boolean vueloNacional;

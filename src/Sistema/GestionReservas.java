@@ -33,7 +33,7 @@ public class GestionReservas {
     public List<Reserva> obtenerReservasCliente(Cliente cliente) {
         List<Reserva> reservasCliente = new ArrayList<>();
         for (Reserva reserva : reservas) {
-            if (reserva.getCliente().equals(cliente)) {
+            if (reserva.getIdCliente().equals(cliente)) {
                 reservasCliente.add(reserva);
             }
         }

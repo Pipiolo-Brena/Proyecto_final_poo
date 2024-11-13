@@ -15,18 +15,20 @@ import Vuelos.Vuelo;
  * @author
  */
 public class Cliente extends Usuario {
+    private String numClienmte;
     private String nombre;
     private String apellido;
-    private List<Vuelo> baseVuelos; //vuelos disponibles
+    private List<Vuelo> baseVuelos; //vuelos suscritos
     private List<Ticket> ticketsGenerados; //ticket
     private MetodosPago formaDePago; //pagos Linea o efectivo
     private GestionReservas baseReservas;//reservas
 
     //constructor
-    public Cliente(String nombreUsuario, String contraseña, String nombre, String apellido, GestionReservas baseReservas) {
+    public Cliente(String numCliente,String nombreUsuario, String contraseña, String nombre, String apellido, MetodosPago formaDePago) {
         super(nombreUsuario, contraseña);
         this.nombre = nombre;
         this.apellido = apellido;
+        this.formaDePago=formaDePago;
         this.ticketsGenerados = new ArrayList<>();
         
     }
@@ -47,9 +49,6 @@ public class Cliente extends Usuario {
         
     }
 
-    public void verVuelosDisponibles() {
-        baseVuelos.mostrarVuelos();
-    }
 
     public void comprarVuelo(Vuelo vuelo) {
         

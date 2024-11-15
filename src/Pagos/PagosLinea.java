@@ -10,19 +10,15 @@ import java.time.LocalDateTime;
  *
  * @author PC
  */
-public abstract class PagosLinea  {
+public abstract class PagosLinea extends MetodosPago {
     protected String numeroTarjeta;
     protected String titular;
-    protected LocalDateTime fechaExpiracion;
     protected int cvv; //numero clave de 4 digitos
 
-    
-
     //constructor
-    public PagosLinea(String numeroTarjeta, String titular, LocalDateTime fechaExpiracion, int cvv) {
+    public PagosLinea(String numeroTarjeta, String titular, int cvv) {
         this.numeroTarjeta = numeroTarjeta;
         this.titular = titular;
-        this.fechaExpiracion = fechaExpiracion;
         this.cvv = cvv;
     }
 

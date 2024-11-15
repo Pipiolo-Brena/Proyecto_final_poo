@@ -2,7 +2,6 @@ package Empresa;
 
 import Usuarios.Usuario;
 import Usuarios.Cliente;
-import Pagos.MetodosPago;
 
 import java.util.HashMap;
 
@@ -32,7 +31,7 @@ public class Aerovuelos {
     }
 
     public void registrarCliente(String numCliente,String nombreUsuario, String contraseña, String nombre, String apellido, String formaDePago ){
-        Usuario cliente = new Cliente(numCliente, nombre,  contraseña,  nombre,  apellido, setMetodoPago(formaDePago));
+        Usuario cliente = new Cliente(numCliente, nombre,  contraseña,  nombre,  apellido, formaDePago);
         agregarCliente(numCliente, cliente);
         System.out.println("Registro exitoso.\n");
     }
@@ -40,11 +39,6 @@ public class Aerovuelos {
 
     public void agregarCliente(String numCliente, Usuario cliente) {
         clientes.put(numCliente,cliente);
-    }
-
-
-    public  setMetodoPago(String formaDePago){
-
     }
 
     public Usuario buscarCliente(String llave) {
@@ -79,7 +73,7 @@ public class Aerovuelos {
     public String toString() {
         return "Banco: "+nombre+"\n"+
                 "Teléfono: "+telefono+"\n"+
-                "Horario: "+horario+"\n"+
+                "Horario: "+horario+"\n";
     }
 }
 

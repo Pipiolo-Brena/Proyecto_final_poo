@@ -1,18 +1,17 @@
 package Empresa;
 
 import Usuarios.Usuario;
+import Vuelos.Vuelo;
+import Vuelos.VueloInternacional;
+import Usuarios.Administrador;
 import Usuarios.Cliente;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
 /**
- * Archivo: Banco.java
- * package Clases.Banco
- * La clase Banco conecta las clases Cliente y Cuentas; maneja la administración 
- * de las operaciones bancarias. 
- * Almacena la información del banco (nombre, teléfono, horario, dirección) y una lista 
- * de clientes en una HashMap.
  * @author Equipo 5
  * @version 2024.09.22
  */
@@ -21,6 +20,7 @@ public class Aerovuelos {
     private String telefono;
     private String horario;
     private HashMap<String,Usuario> clientes;
+    private ArrayList<Vuelo> baseVuelos; 
 
     public Aerovuelos(String nombre, String telefono, String horario) {
         this.nombre = nombre;
@@ -30,10 +30,33 @@ public class Aerovuelos {
         
     }
 
-    public void registrarCliente(String numCliente,String nombreUsuario, String contraseña, String nombre, String apellido, String formaDePago ){
-        Usuario cliente = new Cliente(numCliente, nombre,  contraseña,  nombre,  apellido, formaDePago);
-        agregarCliente(numCliente, cliente);
+    public void registrarUsuario(String tipo, String id, String nombreUsuario, String contraseña, String nombre, String apellido, String formaDePago) {
+        Usuario usuario;
+        if ("Cliente".equalsIgnoreCase(tipo)) {
+            usuario = new Cliente(id, nombreUsuario, contraseña, nombre, apellido, formaDePago);
+        } else if ("Administrador".equalsIgnoreCase(tipo)) {
+            usuario = new Administrador(nombreUsuario, contraseña, nombre, apellido, id);
+        } else {
+            System.out.println("Tipo de usuario no reconocido.");
+            return;
+        }
+        agregarCliente(id, usuario);
         System.out.println("Registro exitoso.\n");
+    }
+    
+
+    public void AgregarVuelo(){
+        Vuelo usuario;
+        if ("Cliente".equalsIgnoreCase(tipo)) {
+            usuario = new Cliente(id, nombreUsuario, contraseña, nombre, apellido, formaDePago);
+        } else if ("Administrador".equalsIgnoreCase(tipo)) {
+            usuario = new Administrador(nombreUsuario, contraseña, nombre, apellido, id);
+        } else {
+            System.out.println("Tipo de usuario no reconocido.");
+            return;
+        }
+
+        agregarCliente(id, usuario);
     }
 
 

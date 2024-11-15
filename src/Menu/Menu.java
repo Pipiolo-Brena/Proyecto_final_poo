@@ -5,6 +5,8 @@
 package Menu;
 
 import java.util.Scanner;
+
+import Empresa.Aerovuelos;
 import Usuarios.Adminstrador;
 import Usuarios.Cliente;
 
@@ -14,6 +16,7 @@ import Usuarios.Cliente;
  */
 public class Menu {
     private Scanner scanner = new Scanner(System.in);
+    public Aerovuelos Compania= new Aerovuelos(null, null, null);
 
     public void mostrarMenuPrincipal() {
         System.out.println("Bienvenido al Sistema de Reservas de Vuelos y Hoteles");
@@ -33,7 +36,7 @@ public class Menu {
 
     private void iniciarSesionCliente() {
         System.out.print("Ingrese su nombre de usuario: ");
-        String usuario = scanner.next();
+        String nombreUsuario = scanner.next();
         System.out.print("Ingrese su contraseña: ");
         String contraseña = scanner.next();
         Cliente cliente = new Cliente(nombreUsuario, contraseña, "Nombre", "Apellido"); //datos cliente
@@ -46,7 +49,7 @@ public class Menu {
 
     private void iniciarSesionAdministrador() {
         System.out.print("Ingrese su nombre de usuario: ");
-        String usuario = scanner.next();
+        String nombreUsuario = scanner.next();
         System.out.print("Ingrese su contraseña: ");
         String contraseña = scanner.next();
         Adminstrador admin = new Adminstrador(nombreUsuario, contraseña, "Nombre", "Apellido", numEmpleado); //datos administrador

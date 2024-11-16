@@ -26,7 +26,6 @@ import Pagos.*;
  * 
  */
 public class Cliente extends Usuario {
-    private final String EFECTIVO="efectivo";
     private List<Vuelo> baseVuelos; //vuelos suscritos
     private List<Ticket> ticketsGenerados; //ticket
     private List<Movimiento> movimientos;
@@ -34,16 +33,6 @@ public class Cliente extends Usuario {
     @SuppressWarnings("unused")
     private GestionReservas baseReservas; // reservas
 
-    /**
-     * Constructor de clase que inicializa todos los atributos.
-     * 
-     * @param nombreUsuario
-     * @param contraseña
-     * @param numUsuario
-     * @param nombre
-     * @param apellido
-     * @param metodoDePago
-     */
     public Cliente(String nombreUsuario, String contraseña, String numUsuario, String nombre, String apellido, String metodoDePago) {
         super(nombreUsuario, contraseña, numUsuario, nombre, apellido);
         setFormaDePago(metodoDePago);

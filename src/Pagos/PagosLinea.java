@@ -13,16 +13,21 @@ import java.time.LocalDateTime;
 public abstract class PagosLinea extends MetodosPago {
     protected String numeroTarjeta;
     protected String titular;
-    protected int cvv; //numero clave de 4 digitos
+    protected LocalDateTime fechaExpiracion;
+    protected int cvv;
 
-    //constructor
-    public PagosLinea(String numeroTarjeta, String titular, int cvv) {
+    public PagosLinea(double monto, String numeroTarjeta, String titular, LocalDateTime fechaExpiracion, int cvv) {
         this.numeroTarjeta = numeroTarjeta;
         this.titular = titular;
+        this.fechaExpiracion = fechaExpiracion;
         this.cvv = cvv;
     }
 
-    public abstract boolean validarPago(double monto);
-    public abstract void realizarPago(double monto);
+    protected boolean esTarjetaValida() {
+        return fechaExpiracion.isAfter(LocalDateTime.now());
+    }
 
+    @Override
+    public abstract boolean validarPago();
+    public abstract void realizarPago(double monto);
 }

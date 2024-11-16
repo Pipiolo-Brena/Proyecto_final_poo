@@ -5,7 +5,6 @@
 package Pagos.Linea;
 
 import java.time.LocalDateTime;
-
 import Pagos.PagosLinea;
 
 /**
@@ -13,31 +12,28 @@ import Pagos.PagosLinea;
  * @author PC
  */
 public class TarjetaCredito extends PagosLinea {
-    
-
     private double saldoDeuda;
 
-    public TarjetaCredito(String numeroTarjeta, String titular, LocalDateTime fechaExpiracion, int cvv, double saldoDeuda) {
-        super(numeroTarjeta, titular, fechaExpiracion, cvv);
-        this.saldoDeuda = saldoDeuda;
+    public TarjetaCredito(double monto, String numeroTarjeta, String titular, LocalDateTime fechaExpiracion, int cvv, double saldoDeuda) {
+        super(monto, numeroTarjeta, titular, fechaExpiracion, cvv);
+        this.saldoDeuda = 0.0;
     }
 
     @Override
-    public boolean validarPago(double monto) {
-        
-        return true;
+    public boolean validarPago() {
+        return esTarjetaValida();
     }
 
     @Override
     public void realizarPago(double monto) {
         saldoDeuda += monto;
+        System.out.println("Pago registrado en tarjeta de crédito. Nueva deuda: $" + saldoDeuda);
     }
 
-    //getters setteres
+
     public double getSaldoDeuda() {
         return saldoDeuda;
     }
-
     public void setSaldoDeuda(double saldoDeuda) {
         this.saldoDeuda = saldoDeuda;
     }
@@ -45,7 +41,6 @@ public class TarjetaCredito extends PagosLinea {
     public String getNumeroTarjeta() {
         return numeroTarjeta;
     }
-
     public void setNumeroTarjeta(String numeroTarjeta) {
         this.numeroTarjeta = numeroTarjeta;
     }
@@ -53,7 +48,6 @@ public class TarjetaCredito extends PagosLinea {
     public String getTitular() {
         return titular;
     }
-
     public void setTitular(String titular) {
         this.titular = titular;
     }
@@ -61,7 +55,6 @@ public class TarjetaCredito extends PagosLinea {
     public LocalDateTime getFechaExpiracion() {
         return fechaExpiracion;
     }
-
     public void setFechaExpiracion(LocalDateTime fechaExpiracion) {
         this.fechaExpiracion = fechaExpiracion;
     }
@@ -69,9 +62,7 @@ public class TarjetaCredito extends PagosLinea {
     public int getCvv() {
         return cvv;
     }
-
     public void setCvv(int cvv) {
         this.cvv = cvv;
     }
-
 }

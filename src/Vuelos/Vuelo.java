@@ -20,10 +20,24 @@ public class Vuelo {
     protected int disponibilidad;
     protected int escalas;
     protected boolean vueloNacional;
+    private boolean requiereVisa;
 
 
     //constructor
-    public Vuelo(String aerolinea, String numVuelo, String origen, String destino, LocalDateTime fechaSalida, double precio, int disponibilidad, int escalas, boolean vueloNacional) {
+    public Vuelo(String aerolinea, String numVuelo, String origen, String destino, LocalDateTime fechaSalida, double precio, int disponibilidad) {
+        this.aerolinea = aerolinea;
+        this.numVuelo = numVuelo;
+        this.origen = origen;
+        this.destino = destino;
+        this.fechaSalida = fechaSalida;
+        this.precio = precio;
+        this.disponibilidad = disponibilidad;
+        this.escalas = 0;
+        this.vueloNacional = false;
+        this.requiereVisa=false;
+    }
+
+    public Vuelo(String aerolinea, String numVuelo, String origen, String destino, LocalDateTime fechaSalida, double precio, int disponibilidad, int escalas, boolean vueloNacional,boolean requiereVisa) {
         this.aerolinea = aerolinea;
         this.numVuelo = numVuelo;
         this.origen = origen;
@@ -33,6 +47,7 @@ public class Vuelo {
         this.disponibilidad = disponibilidad;
         this.escalas = escalas;
         this.vueloNacional = vueloNacional;
+        this.requiereVisa= requiereVisa;
     }
 
     //metodos

@@ -18,7 +18,8 @@ import Usuarios.Cliente;
  */
 public class Menu {
     private Scanner scanner = new Scanner(System.in);
-    public Aerovuelos Compania= new Aerovuelos(null, null, null);
+    //Implementacion de facade
+    public Aerovuelos Compania= Aerovuelos.getInstancia( null,  null,  null);
 
     public void mostrarMenuPrincipal() {
         int opcion = -1;

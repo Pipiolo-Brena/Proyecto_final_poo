@@ -18,7 +18,6 @@ import Usuarios.Datos.Ticket;
  * @author
  */
 public class Cliente extends Usuario {
-    private final String EFECTIVO="efectivo";
     private List<Vuelo> baseVuelos; //vuelos suscritos
     private List<Ticket> ticketsGenerados; //ticket
     private List<Movimiento> movimientos;

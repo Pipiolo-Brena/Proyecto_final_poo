@@ -5,11 +5,23 @@
 package Usuarios;
 
 /**
- *
- * @author
+ * Interfaz que establece métodos para garantizar la seguridad al iniciar sesión en el sistema.
+ * 
+ * @author Equipo 5
+ * @version 2024.11.15
  */
 public interface GestorDeAcceso {
+
+    /**
+     * Método abstracto que comprueba si la contraseña ingresada es correcta.
+     * 
+     * @param contraseña
+     * @return true/false
+     */
     boolean validarContraseña(String contraseña);
+
+    /**
+     * Método abstracto que permite recuperar la contraseña.
+     */
     void recuperarContraseña();
-    
 }

@@ -18,15 +18,6 @@ public abstract class Usuario implements GestorDeAcceso {
     private String nombre;
     private String apellido;
 
-    /**
-     * Constructor de clase que inicializa todos los atributos.
-     * 
-     * @param nombreUsuario
-     * @param contraseña
-     * @param numCliente
-     * @param nombre
-     * @param apellido
-     */
     public Usuario(String nombreUsuario, String contraseña, String numUsuario, String nombre, String apellido) {
         this.nombreUsuario = nombreUsuario;
         this.contraseña = contraseña;
@@ -71,7 +62,7 @@ public abstract class Usuario implements GestorDeAcceso {
     // Los métodos abstractos se definen en las clases concretas
     @Override
     public boolean validarContraseña(String contraseña) {
-        return this.contraseña.equals(constraseña);
+        return this.contraseña.equals(contraseña);
     }
 
     @Override

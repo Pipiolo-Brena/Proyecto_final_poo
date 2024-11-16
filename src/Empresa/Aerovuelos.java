@@ -136,7 +136,7 @@ public class Aerovuelos {
         try (ObjectInputStream archivo = new ObjectInputStream(new FileInputStream(ARCHIVO_CLIENTES))) {
             HashMap<String, Usuario> datosLeidos = (HashMap<String, Usuario>) archivo.readObject();
             for (Usuario usuario : datosLeidos.values()) {
-                clientes.put(usuario.getNumCliente(), usuario);
+                clientes.put(usuario.getNumUsuario(), usuario);
             }
         } catch (FileNotFoundException e) {
             System.out.println("Archivo no encontrado, se creará uno nuevo.");

@@ -70,7 +70,9 @@ public abstract class Usuario implements GestorDeAcceso {
 
     // Los métodos abstractos se definen en las clases concretas
     @Override
-    public abstract boolean validarContraseña(String contraseña);
+    public boolean validarContraseña(String contraseña) {
+        return this.contraseña.equals(constraseña);
+    }
 
     @Override
     public abstract void recuperarContraseña();   

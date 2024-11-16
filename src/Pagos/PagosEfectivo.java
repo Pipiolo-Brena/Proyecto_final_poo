@@ -4,33 +4,37 @@
  */
 package Pagos;
 
+import java.util.Random;
+
 /**
  *
  * @author PC
  */
-public abstract class PagosEfectivo extends MetodosPago{
-    protected double monto;
+public abstract class PagosEfectivo extends MetodosPago {
+    protected String codigoPago;
     protected boolean pagado;
 
-    //constructor
     public PagosEfectivo() {
-        
+        this.pagado = false;
     }
-
-    //para pago en oxxo
-    public abstract boolean realizarPagoEnOxxo(String codigoPago);
-    public abstract String codigoPago(String codigoPago);
-
-    public boolean Pagado() {
+  
+    public boolean isPagado() {
         return pagado;
     }
-
-    public double getMonto() {
-        return monto;
+    public void setPagado(boolean pagado) {
+        this.pagado = pagado;
     }
 
-    public void setMonto(double monto) {
-        this.monto = monto;
+    public String generarCodigoPago() {
+        Random random = new Random();
+        StringBuilder codigo = new StringBuilder();
+        for(int i = 0; i < 10; i++) {
+            codigo.append(random.nextInt(10));
+        }
+        return codigo.toString();
     }
 
+    @Override
+    public abstract boolean validarPago();
+    public abstract void realizarPago(double monto);
 }

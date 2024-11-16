@@ -11,10 +11,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Pagos.GestorPagos;
+import Pagos.MetodosPago;
 import Sistema.GestionReservas;
 import Vuelos.Vuelo;
 import Usuarios.Datos.*;
-import Pagos.*;
 
 /**
  * Clase que define a un cliente del sistema de vuelos y hoteles. Hereda de la clase Usuario los datos generales de un usuario
@@ -29,14 +30,19 @@ public class Cliente extends Usuario {
     private List<Vuelo> baseVuelos; //vuelos suscritos
     private List<Ticket> ticketsGenerados; //ticket
     private List<Movimiento> movimientos;
-    private MetodosPago formaDePago; // pagos en línea o en efectivo
+    
+    private GestorPagos gestorDePagos;
+    private MetodosPago metodoSeleccionado;
+
     @SuppressWarnings("unused")
     private GestionReservas baseReservas; // reservas
 
     public Cliente(String nombreUsuario, String contraseña, String numUsuario, String nombre, String apellido, String metodoDePago) {
         super(nombreUsuario, contraseña, numUsuario, nombre, apellido);
-        setFormaDePago(metodoDePago);
+        this.gestorDePagos = new GestorPagos();
         this.ticketsGenerados = new ArrayList<>();   
+        this.baseVuelos = new ArrayList<>();
+        this.movimientos = new ArrayList<>();
         this.baseReservas = new GestionReservas();
     }
 
@@ -64,18 +70,36 @@ public class Cliente extends Usuario {
         }
     }
 
-    public void setFormaDePago(String metodoDePago) {
-        if(metodoDePago == EFECTIVO){
-            this.formaDePago = new PagosEfectivo();
-        }else{
-            this.formaDePago = new PagosLinea();
-        }
-    }
-    public MetodosPago getMetodoDePago() {
-        return formaDePago;
-    }
 
     // Métodos adicionales
+    public void agregarMetodoPago(String nombreMetodo) {
+        if(gestorDePagos.seleccionarMetodoPago(nombreMetodo)) {
+            metodoSeleccionado = gestorDePagos.getMetodoSeleccionado();
+            System.out.println("Método de pago seleccionadoo:" + nombreMetodo);
+        } else {
+            System.out.println("El métodod de pago no está disponible.");
+        }
+    }
+
+    public void realizarPago(double monto) {
+        if(metodoSeleccionado == null) {
+            System.out.println("No se ha seleccionado ningún método de pago.");
+            return;
+        }
+
+        metodoSeleccionado.setMonto(monto);
+        if(metodoSeleccionado.validarPago()) {
+            metodoSeleccionado.realizarPago(monto);
+            System.out.println("Pago realizado exitosamente.");
+        } else {
+            System.out.println("El método de pago no es válido.");
+        }
+    }
+
+    public void listaMetodosDePago() {
+        gestorDePagos.metodosPagoDisponibles();
+    }
+  
     public void verVuelos() {
         for (Vuelo vuelo : baseVuelos) {
             System.out.println(vuelo);

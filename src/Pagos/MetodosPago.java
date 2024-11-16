@@ -8,6 +8,17 @@ package Pagos;
  *
  * @author PC
  */
-public class MetodosPago {
+public abstract class MetodosPago {
+    protected double monto; // Monto a pagar 
+    
+    public double getMonto() {
+        return monto;
+    }
+    public void setMonto(double monto) {
+        this.monto = monto;
+    }
 
+    public abstract boolean validarPago();
+    
+    public abstract void realizarPago(double monto);
 }

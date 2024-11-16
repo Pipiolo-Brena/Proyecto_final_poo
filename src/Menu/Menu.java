@@ -153,7 +153,7 @@ public class Menu {
         System.out.println("Reserva de hotel seleccionada.");
     }
 
-    private void comprarPaquete() {
+    private void comprarPaquete() {//paquetes
         //comprar un paquete vuelo + hotel
         System.out.println("Compra de paquete vuelo + hotel seleccionada.");
     }

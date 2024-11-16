@@ -8,14 +8,13 @@ package Pagos;
  *
  * @author PC
  */
-public abstract class PagosEfectivo {
+public abstract class PagosEfectivo extends MetodosPago{
     protected double monto;
     protected boolean pagado;
 
     //constructor
-    public PagosEfectivo(double monto) {
-        this.monto = monto;
-        this.pagado = false;
+    public PagosEfectivo() {
+        
     }
 
     //para pago en oxxo

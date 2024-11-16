@@ -8,8 +8,6 @@ package Pagos;
  *
  * @author PC
  */
-public interface MetodosPago {
-    boolean formaDePago();
-    boolean validarPago(double monto);
-    void realizarPago(double monto);
+public class MetodosPago {
+
 }

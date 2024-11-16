@@ -13,8 +13,7 @@ public class Hoteles {
     private String ubicacion;
     private Double precio;
     
-
-    private int habitacionesDisponibles;//no se si este atributo sea viable o se hace con una lista  que omite
+    private int habitacionesDisponibles; //Considero que esta bien dejarlo así
 
     public Hoteles(String nombre, String ubicacion, Double precio, int habitacionesDisponibles) {
         this.nombre = nombre;
@@ -22,7 +21,6 @@ public class Hoteles {
         this.precio = precio;
         this.habitacionesDisponibles = habitacionesDisponibles;
     }
-
 
     //Metodos de reserva
     public void reservarHabitacion() {
@@ -35,11 +33,9 @@ public class Hoteles {
 
 
     //setters getters
-
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -47,8 +43,6 @@ public class Hoteles {
     public String getUbicacion() {
         return ubicacion;
     }
-
-
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
     }
@@ -56,8 +50,6 @@ public class Hoteles {
     public Double getPrecio() {
         return precio;
     }
-
-
     public void setPrecio(Double precio) {
         this.precio = precio;
     }
@@ -65,18 +57,13 @@ public class Hoteles {
     public int getHabitacionesDisponibles() {
         return habitacionesDisponibles;
     }
-
-
     public void setHabitacionesDisponibles(int habitacionesDisponibles) {
         this.habitacionesDisponibles = habitacionesDisponibles;
     }
-
 
     @Override
     public String toString() {
         return "Hoteles [nombre=" + nombre + ", ubicacion=" + ubicacion + ", habitacionesDisponibles="
                 + habitacionesDisponibles + "]";
     }
-
-
 }

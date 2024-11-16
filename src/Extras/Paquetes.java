@@ -10,7 +10,6 @@ package Extras;
  */
 
 import Vuelos.Vuelo;
-import Extras.Hoteles;
 
 public class Paquetes {
     private Vuelo vuelo;

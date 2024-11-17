@@ -27,9 +27,11 @@ public class GestionMenu {
             Usuario usuario = compania.getUsuario(contraseña);
             if(usuario instanceof Cliente) {
                 Cliente cliente = (Cliente) usuario;
+                espacios();
                 menuCliente(cliente);
             } else {
                 Administrador administrador = (Administrador) usuario;
+                espacios();
                 menuAdministrador(administrador);
             }
         } else {
@@ -55,6 +57,7 @@ public class GestionMenu {
                 String formaDePago = scanner.nextLine();
 
                 compania.registrarUsuario("Cliente", nombreUsuario, contraseña, nombre, apellido, formaDePago);
+                espacios();
                 menuCliente((Cliente)compania.buscarCliente(nombreUsuario));
             }
             case 'a', 'A' -> {
@@ -71,8 +74,9 @@ public class GestionMenu {
                 String nombre = scanner.nextLine();
                 System.out.print("Ingrese su apellido: ");
                 String apellido = scanner.nextLine();
-
+                
                 compania.registrarUsuario("Administrador", nombreUsuario, contraseña, nombre, apellido, null);
+                espacios();
                 menuAdministrador((Administrador)compania.buscarCliente(nombreUsuario));
             }
         }
@@ -263,5 +267,11 @@ public class GestionMenu {
                 default -> System.out.println("Opción no válida. Intente de nuevo.");
             }
         } while(opcion != 4);
+    }
+
+    private static void espacios(){
+        for(int i=0;i>5;i++){
+            System.out.println("");
+        }
     }
 }

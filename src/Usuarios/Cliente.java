@@ -11,9 +11,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Extras.Hoteles;
 import Pagos.GestorPagos;
 import Pagos.MetodosPago;
-import Sistema.GestionReservas;
 import Vuelos.Vuelo;
 import Usuarios.Datos.*;
 
@@ -27,23 +27,23 @@ import Usuarios.Datos.*;
  * 
  */
 public class Cliente extends Usuario {
-    private List<Vuelo> baseVuelos; //vuelos suscritos
-    private List<Ticket> ticketsGenerados; //ticket
-    private List<Movimiento> movimientos;
+    private List<Vuelo> baseVuelos; // Vuelos reservados
+    private List<Hoteles> baseHoteles; // Hoteles reservados
+    private List<Ticket> ticketsGenerados; // Tickets generados
+    private List<Movimiento> movimientos; // Historial de movimientos
     
     private GestorPagos gestorDePagos;
     private MetodosPago metodoSeleccionado;
 
-    @SuppressWarnings("unused")
-    private GestionReservas baseReservas; // reservas
-
     public Cliente(String nombreUsuario, String contraseña, String nombre, String apellido, String metodoDePago) {
         super(nombreUsuario, contraseña, nombre, apellido);
-        this.gestorDePagos = new GestorPagos();
-        this.ticketsGenerados = new ArrayList<>();   
         this.baseVuelos = new ArrayList<>();
+        this.baseHoteles = new ArrayList<>();
+        this.ticketsGenerados = new ArrayList<>();   
         this.movimientos = new ArrayList<>();
-        this.baseReservas = new GestionReservas();
+        
+        this.gestorDePagos = new GestorPagos();
+        this.metodoSeleccionado = agregarMetodoPago(metodoDePago);
     }
 
     // Getters y setters
@@ -52,6 +52,13 @@ public class Cliente extends Usuario {
     }
     public Vuelo getVuelo(int numeroVuelo) {
         return baseVuelos.get(numeroVuelo);
+    }
+
+    public void agregarHotel(Hoteles hotel) {
+        baseHoteles.add(hotel);
+    }
+    public Hoteles getHotel(int numHotel) {
+        return baseHoteles.get(numHotel);
     }
   
     public void agregarTicket(Ticket vuelo){
@@ -70,15 +77,9 @@ public class Cliente extends Usuario {
         }
     }
 
-
     // Métodos adicionales
-    public void agregarMetodoPago(String nombreMetodo) {
-        if(gestorDePagos.seleccionarMetodoPago(nombreMetodo)) {
-            metodoSeleccionado = gestorDePagos.getMetodoSeleccionado();
-            System.out.println("Método de pago seleccionadoo:" + nombreMetodo);
-        } else {
-            System.out.println("El métodod de pago no está disponible.");
-        }
+    public MetodosPago agregarMetodoPago(String nombreMetodo) {
+        return gestorDePagos.registrarMetodoPago(nombreMetodo);
     }
 
     public void realizarPago(double monto) {
@@ -107,21 +108,31 @@ public class Cliente extends Usuario {
     }
 
     public void verTickets() {
+        int i = 1;
         for (Ticket ticket : ticketsGenerados) {
-            System.out.println(ticket);
+            System.out.println("Ticket "+ i +".- ID: "+ ticket.getIdTicket() + "| Tipo de compra: " + ticket.getTipoServicio());
+            i++;
         }
     }
 
-    public void descargarTicket(){
-        Ticket ticket = getTicket(0);
-
-        File descarga = new File("Descarga Ticket");
-        try(BufferedWriter escritor = new BufferedWriter(new FileWriter(descarga, true))) {
-            escritor.write(ticket.toString());
-        } catch(IOException e) {
-            e.getMessage();
+    public void verHoteles() {
+        for(Hoteles hotel : baseHoteles) {
+            System.out.println(hotel);
         }
     }
 
+    public void descargarTicket(int numTicket){
+        if(ticketsGenerados.size() > numTicket && numTicket != 0) {
+            Ticket ticket = getTicket(numTicket);
 
+            File archivoDescarga = new File("Ticket_" + ticket.getIdTicket() + ".txt");
+            try(BufferedWriter escritor = new BufferedWriter(new FileWriter(archivoDescarga))) {
+                escritor.write(ticket.detallesCompletos());
+            } catch(IOException e) {
+                e.getMessage();
+            }
+        } else {
+            System.out.println("Número de ticket en la lista inválido.");
+        }
+    }
 }

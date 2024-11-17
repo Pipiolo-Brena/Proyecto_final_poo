@@ -54,8 +54,16 @@ public class GestionMenu {
                 String nombre = scanner.nextLine();
                 System.out.print("Ingrese su apellido: ");
                 String apellido = scanner.nextLine();
-                System.out.println("Ingrese su método de pago: ");
-                String formaDePago = scanner.nextLine();
+                System.out.println("Métodos de pago disponible:\n\t1.- Tarjeta de crédito\n\t2.- Tarjeta de débito\n\t3.- Pago en OXXO\nIngrese una opción: ");
+                int numMetodo = scanner.nextInt();
+                scanner.nextLine();
+                String formaDePago;
+                switch (numMetodo) {
+                    case 1 -> formaDePago = "TARJETA_CREDITO";
+                    case 2 -> formaDePago = "TARJETA_DEBITO";
+                    case 3 -> formaDePago = "OXXO";
+                    default -> formaDePago = null;
+                }
 
                 compania.registrarUsuario("Cliente", nombreUsuario, contraseña, nombre, apellido, formaDePago);
                 espacios();
@@ -110,6 +118,7 @@ public class GestionMenu {
             System.out.println("3. Comprar vuelo");
             System.out.println("4. Comprar hotel");
             System.out.println("5. Comprar paquete de vuelo + hotel");
+
             System.out.println("6. Salir");
             try {
                 System.out.print("Seleccione una opción: ");

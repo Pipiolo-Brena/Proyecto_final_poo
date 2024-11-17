@@ -24,24 +24,16 @@ public class Vuelo implements Serializable{
     private String destino;
     private LocalDateTime fechaSalida;
     private Double precio;
-    private int escalas;
-    private boolean vueloNacional;
-    private boolean requiereVisa;
-    private Map<String, Asiento> asientos; 
-
-
-    /** Constructor para vuelos nacionales */
-    public Vuelo(String aerolinea, String numVuelo, String origen, String destino, LocalDateTime fechaSalida, double precio) {
-        this.aerolinea = aerolinea;
-        this.numVuelo = numVuelo;
-        this.origen = origen;
-        this.destino = destino;
-        this.fechaSalida = fechaSalida;
-        this.precio = precio;
+        this.precioVip = precio * 1.60;
         this.escalas = 0;
         this.vueloNacional = false;
         this.requiereVisa = false;
         this.asientos = new HashMap<>();
+
+        for(int i = 1; i <= 30; i++) {
+            boolean esVIP = i <= 10; // Los primeros 10 asientos son vip
+            agregarAsiento("A" + i, esVIP);
+        }
     }
 
     /** Constructor para vuelos internacionales */
@@ -52,10 +44,16 @@ public class Vuelo implements Serializable{
         this.destino = destino;
         this.fechaSalida = fechaSalida;
         this.precio = precio;
+        this.precioVip = precio * 1.60;
         this.escalas = escalas;
         this.vueloNacional = vueloNacional;
         this.requiereVisa= requiereVisa;
         this.asientos = new HashMap<>();
+
+        for(int i = 1; i <= 30; i++) {
+            boolean esVIP = i <= 10; // Los primeros 10 asientos son vip
+            agregarAsiento("A" + i, esVIP);
+        }
     }
 
     // Métodos principales
@@ -110,7 +108,7 @@ public class Vuelo implements Serializable{
         }
     }
 
-    private Asiento obtenerAsiento(String numero) {
+    public Asiento obtenerAsiento(String numero) {
         if (!asientos.containsKey(numero)) {
             throw new IllegalArgumentException("El asiento no existe.");
         }
@@ -161,6 +159,13 @@ public class Vuelo implements Serializable{
         this.precio = precio;
     }
 
+    public double getPrecioVip() {
+        return precioVip;
+    }
+    public void setPrecioVip(double precioVip) {
+        this.precioVip = precioVip;
+    }
+
     public int getEscalas() {
         return escalas;
     }
@@ -184,6 +189,24 @@ public class Vuelo implements Serializable{
 
     @Override
     public String toString() {
-        return "Vuelo " + numVuelo + " de " + aerolinea;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Vuelo " + numVuelo + " de " + aerolinea);
+        sb.append("\nOrigen: " + origen);
+        sb.append("\nDestino: " + destino);
+        sb.append("\nFecha de salida: " + fechaSalida);
+        sb.append("\nPrecio: " + precio);
+        sb.append("\nEscalas: " + escalas);
+        sb.append("\nVuelo nacional: " + (vueloNacional ? "Sí" : "No"));
+        sb.append("\nRequiere visa: " + (requiereVisa ? "Sí" : "No"));
+        sb.append("\nDisponibilidad de asientos: " + getDisponibilidad());
+    
+        // Agregar los asientos disponibles
+        sb.append("\nAsientos disponibles: ");
+        for (Asiento asiento : asientos.values()) {
+            if (!asiento.estaOcupado()) {
+                sb.append("\n" + asiento.getNumero() + (asiento.esVIP() ? " (VIP)" : ""));
+            }
+        }
+    
+        return sb.toString();
     }
-}

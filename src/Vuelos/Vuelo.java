@@ -24,6 +24,21 @@ public class Vuelo implements Serializable{
     private String destino;
     private LocalDateTime fechaSalida;
     private Double precio;
+    private double precioVip;
+    private int escalas;
+    private boolean vueloNacional;
+    private boolean requiereVisa;
+    private Map<String, Asiento> asientos; 
+
+
+    /** Constructor para vuelos nacionales */
+    public Vuelo(String aerolinea, String numVuelo, String origen, String destino, LocalDateTime fechaSalida, double precio) {
+        this.aerolinea = aerolinea;
+        this.numVuelo = numVuelo;
+        this.origen = origen;
+        this.destino = destino;
+        this.fechaSalida = fechaSalida;
+        this.precio = precio;
         this.precioVip = precio * 1.60;
         this.escalas = 0;
         this.vueloNacional = false;
@@ -210,3 +225,4 @@ public class Vuelo implements Serializable{
     
         return sb.toString();
     }
+}

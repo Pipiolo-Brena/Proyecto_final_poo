@@ -17,16 +17,14 @@ import java.time.LocalDateTime;
  */
 
 public class GestionCompras {
-    private static int contadorTickets = 1;
 
-
-    public static void comprarVuelo(Cliente cliente, Vuelo vuelo) {
+    public static void comprarVuelo(Cliente cliente, Vuelo vuelo, String numeroAsiento) {
         if(vuelo.getDisponibilidad() > 0) {
-            vuelo.reservarAsiento(null);
-            cliente.realizarPago(vuelo.getPrecio());
+            vuelo.reservarAsiento(numeroAsiento); // Reserva el asiento específico
+            cliente.realizarPago((vuelo.obtenerAsiento(numeroAsiento).esVIP() ? vuelo.getPrecioVip() : vuelo.getPrecio()));
             cliente.agregarVuelo(vuelo);
 
-            Ticket ticket = new Ticket(contadorTickets++, cliente, vuelo.getNumVuelo(), LocalDateTime.now(), vuelo.getNumVuelo());
+            Ticket ticket = new Ticket(cliente, "Vuelo", vuelo.toString(), LocalDateTime.now(), vuelo.getPrecio());
             cliente.agregarTicket(ticket);
 
             Movimiento movimiento = new Movimiento(vuelo.getPrecio(), "Compra de vuelo");
@@ -40,7 +38,12 @@ public class GestionCompras {
 
     public static void comprarHotel(Cliente cliente, Hoteles hotel) {
         if(hotel.getHabitacionesDisponibles() > 0) {
-            hotel.reservarHabitacion();
+            hotel.reservarHabitacion(); // Decrementa la habitaciones disponibles
+            cliente.realizarPago(hotel.getPrecio());
+            cliente.agregarHotel(hotel);
+
+            Ticket ticket = new Ticket(cliente, "Hotel", hotel.toString(), LocalDateTime.now(), hotel.getPrecio());
+            cliente.agregarTicket(ticket);
 
             Movimiento movimiento = new Movimiento(hotel.getPrecio(), "Compra de Hotel: "+ hotel.getNombre());
             cliente.agregarMovimiento(movimiento);
@@ -58,10 +61,12 @@ public class GestionCompras {
         if (vuelo.getDisponibilidad() > 0 && hotel.getHabitacionesDisponibles() > 0) {
             vuelo.reservarAsiento(null);
             hotel.reservarHabitacion();
-            cliente.realizarPago(paquete.getPrecioTotal());
-
             
-            Ticket ticket = new Ticket(contadorTickets++, cliente, vuelo.getNumVuelo(), LocalDateTime.now(), vuelo.getDestino());
+            cliente.realizarPago(paquete.getPrecioTotal());
+            cliente.agregarVuelo(vuelo);
+            cliente.agregarHotel(hotel);
+            
+            Ticket ticket = new Ticket(cliente, "Paquete (Vuelo + Hotel)", paquete.toString(), LocalDateTime.now(), paquete.getPrecioTotal());
             cliente.agregarTicket(ticket);
 
             Movimiento movimiento = new Movimiento(paquete.getPrecioTotal(), "Compra de Paquete (Vuelo + Hotel)");

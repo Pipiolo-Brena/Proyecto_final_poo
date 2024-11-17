@@ -1,9 +1,264 @@
 package Menu;
 
-/**
- *
- * @author PC
- */
-public class GestionMenu {
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
+import Empresa.Aerovuelos;
+import Pagos.Efectivo.*;
+import Pagos.Linea.*;
+import Pagos.MetodosPago;
+import Usuarios.*;
+
+/**
+ * Clase que define y gestiona las operaciones del menú del sistema.
+ * 
+ * @author Equipo 5
+ * @version 2024.11.17
+ */
+
+public class GestionMenu {
+    private static Scanner scanner = new Scanner(System.in);
+    private static Aerovuelos compania = Aerovuelos.getInstancia( "Aeroviajes FI-UNAM",  "5543651234",  "Lunes-Sábado, 09:00-22:00 hrs"); // Ejemplo
+
+    /** Opción 1 del menú */
+    public static void iniciarSesion() {
+        System.out.print("Ingrese su nombre de usuario: ");
+        String nombreUsuario = scanner.nextLine();
+        System.out.print("Ingrese su contraseña: ");
+        String contraseña = scanner.nextLine();
+        if(compania.verificarUsuario(nombreUsuario, contraseña)) {
+            Usuario usuario = compania.getUsuario(contraseña);
+            if(usuario instanceof Cliente) {
+                Cliente cliente = (Cliente) usuario;
+                menuCliente(cliente);
+            } else {
+                Administrador administrador = (Administrador) usuario;
+                menuAdministrador(administrador);
+            }
+        } else {
+            System.out.println("Usuario o contraseña incorrectas.");
+        }
+    }
+
+    /** Opción 2 del menú */
+    public static void registrarse() {
+        System.out.println("Registrarse como cliente o como administrador? (c/a)");
+        char opcion = scanner.next().charAt(0);
+
+        switch (opcion) {
+            case 'c', 'C' -> {
+                String nombreUsuario = ingresarNombreUsuario();
+                System.out.print("Ingrese su contraseña: ");
+                String contraseña = scanner.nextLine();
+                System.out.print("Ingrese su nombre: ");
+                String nombre = scanner.nextLine();
+                System.out.print("Ingrese su apellido: ");
+                String apellido = scanner.nextLine();
+                System.out.println("Ingrese su método de pago: ");
+                String formaDePago = scanner.nextLine();
+
+                compania.registrarUsuario("Cliente", nombreUsuario, contraseña, nombre, apellido, formaDePago);
+                menuCliente((Cliente)compania.buscarCliente(nombreUsuario));
+            }
+            case 'a', 'A' -> {
+                String nombreUsuario = ingresarNombreUsuario();
+                System.out.print("Ingrese su contraseña: ");
+                String contraseña = scanner.nextLine();
+                System.out.print("Ingrese su nombre: ");
+                String nombre = scanner.nextLine();
+                System.out.print("Ingrese su apellido: ");
+                String apellido = scanner.nextLine();
+
+                compania.registrarUsuario("Administrador", nombreUsuario, contraseña, nombre, apellido, null);
+                menuAdministrador((Administrador)compania.buscarCliente(nombreUsuario));
+            }
+        }
+    }
+
+    private static String ingresarNombreUsuario() {
+        String nombreUsuario = null;
+        boolean valido = false;
+        while(!valido) {
+            System.out.print("Ingresa tu nombre de usuario: ");
+            nombreUsuario = scanner.nextLine();
+            if(compania.buscarCliente(nombreUsuario) != null) {
+                System.out.println("El nombre de usuario ingresado ya existe. Intento con otro.");
+            } else {
+                valido = true;
+            }
+        }
+        return nombreUsuario;
+    }
+
+    /** Método auxiliares */
+    // ===================
+    // Menú cliente
+    // ===================
+    private static void menuCliente(Cliente cliente) {
+        int opcion = -1;
+        do {
+            System.out.println("1. Ver vuelos disponibles");
+            System.out.println("2. Ver hoteles disponibles");
+            System.out.println("3. Comprar vuelo");
+            System.out.println("4. Comprar hotel");
+            System.out.println("5. Comprar paquete de vuelo + hotel");
+            System.out.println("6. Salir");
+            try {
+                System.out.print("Seleccione una opción: ");
+                opcion = scanner.nextInt();
+            } catch(InputMismatchException e) {
+                System.out.println("Error: Entrada de datos inválida.");
+                scanner.nextLine();
+            }
+            switch (opcion) {
+                case 1 -> compania.verVuelos();
+                case 2 -> compania.verHoteles();
+                case 3 -> comprarVuelo(cliente);
+                case 4 -> reservarHotel();
+                case 5 -> comprarPaquete();
+                case 6 -> System.out.println("Gracias por usar el sistema de reservas. ¡Hasta pronto!");
+                default -> System.out.println("Opción no válida. Intente de nuevo.");
+            }
+        } while(opcion != 6);
+    }
+
+    private static void comprarVuelo(Cliente cliente) {
+        compania.verVuelos();
+        System.out.println("Ingrese el número de vuelo que desea comprar:");
+        String numVuelo = scanner.nextLine();
+        // Lógica para comprar vuelo
+    }
+
+    private static void reservarHotel() {
+        compania.verHoteles();
+        System.out.println("Ingrese la ubicación del hotel que desea comprar:");
+        String ubicacion = scanner.nextLine();
+        // Lógica para reservar un hotel
+    }
+
+    private static void comprarPaquete() {
+        compania.verVuelos();
+        compania.verHoteles();
+        System.out.println("Ingrese el número de vuelo que desea comprar como paquete:");
+        String numVuelo = scanner.nextLine();
+        System.out.println("Ingrese la ubicación del hotel que desea comprar como paquete:");
+        String ubicacion = scanner.nextLine();
+        // Lógica para comprar un paquete
+
+    }
+
+    // ===================
+    // Menú administrador
+    // ===================
+    private static void menuAdministrador(Administrador administrador) {
+        int opcion = -1;
+        do {
+            System.out.println("1. Gestionar vuelos");
+            System.out.println("2. Gestionar hoteles");
+            System.out.println("3. Gestionar clientes");
+            System.out.println("4. Salir");
+            try {
+                System.out.print("Selecione una opción: ");
+                opcion = scanner.nextInt();
+            } catch(InputMismatchException e) {
+                System.out.println("Error: Entrada de datos inválida.");
+                scanner.nextLine();
+            }
+            switch(opcion) {
+                case 1 -> menuGestionVuelos();
+                case 2 -> menuGestionHoteles();
+                case 3 -> menuGestionClientes();
+                case 4 -> System.out.println("Saliendo del sistema como administrador.");
+                default -> System.out.println("Opción no válida. Intente de nuevo.");
+            }
+        } while(opcion != 4);
+    }
+
+    private static void menuGestionVuelos() {
+        int opcion = -1;
+        do {
+            System.out.println("1. Agregar vuelo");
+            System.out.println("2. Eliminar vuelo");
+            System.out.println("3. Ver vuelos");
+            System.out.println("4. Salir");
+            try {
+                System.out.print("Selecione una opción: ");
+                opcion = scanner.nextInt();
+            } catch(InputMismatchException e) {
+                System.out.println("Error: Entrada de datos inválida.");
+                scanner.nextLine();
+            }
+            switch (opcion) {
+                case 1 -> agregarVuelo();
+                case 2 -> compania.eliminarVuelo();
+                case 3 -> compania.verVuelos();
+                case 4 -> System.out.println("Saliendo de la gestión de vuelos.");
+                default -> System.out.println("Opción no válida. Intente de nuevo.");
+            }
+        } while(opcion != 4);
+    }
+
+    private static void agregarVuelo() {
+        // Agregar lógica
+    }
+
+    private static void menuGestionHoteles() {
+        int opcion = -1;
+        do {
+            System.out.println("1. Agregar hotel");
+            System.out.println("2. Elminar hotel");
+            System.out.println("3. Ver hoteles");
+            System.out.println("4. Salir");
+            try {
+                System.out.print("Selecione una opción: ");
+                opcion = scanner.nextInt();
+            } catch(InputMismatchException e) {
+                System.out.println("Error: Entrada de datos inválida.");
+                scanner.nextLine();
+            }
+            switch (opcion) {
+                case 1 -> agregarHotel();
+                case 2 -> compania.eliminarHotel();
+                case 3 -> compania.verHoteles();
+                case 4 -> System.out.println("Saliendo de la gestión de hoteles.");
+                default -> System.out.println("Opción no válida. Intente de nuevo.");
+            }
+        } while(opcion != 4);
+    }
+
+    private static void agregarHotel() {
+
+    }
+
+    private static void menuGestionClientes() {
+        int opcion = -1;
+        do {
+            System.out.println("1. Ver clientes registrados");
+            System.out.println("2. Buscar cliente");
+            System.out.println("3. Eliminar cliente");
+            System.out.println("4. Salir");
+            try {
+                System.out.print("Selecione una opción: ");
+                opcion = scanner.nextInt();
+            } catch(InputMismatchException e) {
+                System.out.println("Error: Entrada de datos inválida.");
+                scanner.nextLine();
+            }
+            switch (opcion) {
+                case 1 -> compania.verUsuarios();
+                case 2 -> buscarClienteEnSistema();
+                case 3 -> eliminarCliente();
+                case 4 -> System.out.println("Saliendo de la gestión de hoteles.");
+                default -> System.out.println("Opción no válida. Intente de nuevo.");
+            }
+        } while(opcion != 4);
+    }
+
+    private static void buscarClienteEnSistema() {
+        // Falta agregar lógica
+    }
+
+    private static void eliminarCliente() {
+        // Falta agregar lógica
+    }
 }

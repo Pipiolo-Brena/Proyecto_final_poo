@@ -9,8 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
- * @author PC
+ * Representa un vuelo, incluyendo detalles como aerolínea, origen, destino,
+ * fecha, precio y lista de asientos. 
+ * 
+ * @author Equipo 5
+ * @version 2024.11.17
  */
 public class Vuelo {
     private String aerolinea;
@@ -18,55 +21,64 @@ public class Vuelo {
     private String origen;
     private String destino;
     private LocalDateTime fechaSalida;
-    protected Double precio;
-    protected int disponibilidad;
-    protected int escalas;
-    protected boolean vueloNacional;
+    private Double precio;
+    private int escalas;
+    private boolean vueloNacional;
     private boolean requiereVisa;
     private Map<String, Asiento> asientos; 
 
 
-    //constructor
-    public Vuelo(String aerolinea, String numVuelo, String origen, String destino, LocalDateTime fechaSalida, double precio, int disponibilidad) {
+    /** Constructor para vuelos nacionales */
+    public Vuelo(String aerolinea, String numVuelo, String origen, String destino, LocalDateTime fechaSalida, double precio) {
         this.aerolinea = aerolinea;
         this.numVuelo = numVuelo;
         this.origen = origen;
         this.destino = destino;
         this.fechaSalida = fechaSalida;
         this.precio = precio;
-        this.disponibilidad = disponibilidad;
         this.escalas = 0;
-        this.asientos = new HashMap<>();
         this.vueloNacional = false;
-        this.requiereVisa=false;
+        this.requiereVisa = false;
+        this.asientos = new HashMap<>();
     }
 
-    public Vuelo(String aerolinea, String numVuelo, String origen, String destino, LocalDateTime fechaSalida, double precio, int disponibilidad, int escalas, boolean vueloNacional,boolean requiereVisa) {
+    /** Constructor para vuelos internacionales */
+    public Vuelo(String aerolinea, String numVuelo, String origen, String destino, LocalDateTime fechaSalida, double precio, int escalas, boolean vueloNacional, boolean requiereVisa) {
         this.aerolinea = aerolinea;
         this.numVuelo = numVuelo;
         this.origen = origen;
         this.destino = destino;
         this.fechaSalida = fechaSalida;
         this.precio = precio;
-        this.disponibilidad = disponibilidad;
         this.escalas = escalas;
         this.vueloNacional = vueloNacional;
         this.requiereVisa= requiereVisa;
         this.asientos = new HashMap<>();
     }
 
-    //metodos
+    // Métodos principales
+    /** Muestra detalles del vuelo, incluyendo la disponibilidad de asientos. */
     public void mostrarDetalles(){
         System.out.println("Aerolinea: " + getAerolinea() + 
-        "Numm. de vuelo:" + getNumVuelo() + 
-        "Parte de: " + getOrigen() + 
-        "Llega a: " + getDestino() + 
-        "Escalas " + getEscalas() + 
-        "Fecha de salida: " + getFechaSalida() + 
-        "Precio: " + getPrecio());
-    
+        "\nNum. de vuelo:" + getNumVuelo() + 
+        "\nParte de: " + getOrigen() + 
+        "\nLlega a: " + getDestino() + 
+        "\nEscalas " + getEscalas() + 
+        "\nFecha de salida: " + getFechaSalida() + 
+        "\nPrecio: " + getPrecio() + 
+        "\nAsientos disponibles: " + getDisponibilidad());
     }
 
+    /** Calcula y develve la cantidad de asientos disponibles. */
+    public int getDisponibilidad() {
+        int disponibles = 0;
+        for(Asiento asiento : asientos.values()) {
+            if(!asiento.estaOcupado()) disponibles++;
+        }
+        return disponibles;
+    }
+
+    /** Agrega un asiento al vuelo. */
     public void agregarAsiento(String numero, boolean esVIP) {
         if (asientos.containsKey(numero)) {
             throw new IllegalArgumentException("El asiento ya existe.");
@@ -74,21 +86,21 @@ public class Vuelo {
         asientos.put(numero, new Asiento(numero, esVIP));
     }
 
-    // Método para reservar un asiento
+    /** Reserva un asiento del vuelo. */
     public void reservarAsiento(String numero) {
         Asiento asiento = obtenerAsiento(numero);
         asiento.reservar();
         System.out.println("El asiento " + numero + " ha sido reservado.");
     }
 
-    // Método para cancelar un asiento
+    /** Cancela la reserva de un asiento. */
     public void cancelarAsiento(String numero) {
         Asiento asiento = obtenerAsiento(numero);
         asiento.cancelar();
         System.out.println("La reserva del asiento " + numero + " ha sido cancelada.");
     }
 
-    // Método para mostrar el estado de los asientos
+    /** Muestra el estado de todos los asientos. */
     public void mostrarAsientos() {
         System.out.println("Estado de los asientos:");
         for (Asiento asiento : asientos.values()) {
@@ -103,7 +115,8 @@ public class Vuelo {
         return asientos.get(numero);
     }
 
-    //setters getters
+    // Gettes y setters
+    /** Se declaran getters y setters para todos los atributos. */  
     public String getAerolinea() {
         return aerolinea;
     }
@@ -128,7 +141,6 @@ public class Vuelo {
     public String getDestino() {
         return destino;
     }
-
     public void setDestino(String destino) {
         this.destino = destino;
     }
@@ -147,13 +159,6 @@ public class Vuelo {
         this.precio = precio;
     }
 
-    public int getDisponibilidad() {
-        return disponibilidad;
-    }
-    public void setDisponibilidad(int disponibilidad) {
-        this.disponibilidad = disponibilidad;
-    }
-
     public int getEscalas() {
         return escalas;
     }
@@ -168,10 +173,15 @@ public class Vuelo {
         this.vueloNacional = vueloNacional;
     }
 
+    public boolean getRequiereVisa() {
+        return requiereVisa;
+    }
+    public void setRequiereVisa(boolean requiereVisa) {
+        this.requiereVisa = requiereVisa;
+    }
+
     @Override
     public String toString() {
         return "Vuelo " + numVuelo + " de " + aerolinea;
     }
-
-
 }

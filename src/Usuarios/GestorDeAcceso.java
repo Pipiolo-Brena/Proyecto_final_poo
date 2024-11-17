@@ -23,5 +23,5 @@ public interface GestorDeAcceso {
     /**
      * Método abstracto que permite recuperar la contraseña.
      */
-    void recuperarContraseña();
+    void recuperarContraseña(String nuevaContraseña);
 }

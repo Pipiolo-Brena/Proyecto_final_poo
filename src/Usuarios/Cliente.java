@@ -123,8 +123,5 @@ public class Cliente extends Usuario {
         }
     }
 
-    @Override
-    public void recuperarContraseña() {
-        // agregar la lógica correspondiente
-    }
+
 }

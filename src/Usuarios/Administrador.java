@@ -24,11 +24,6 @@ public class Administrador extends Usuario {
         return this.contraseña.equals(contraseña);
     }
 
-    @Override
-    public void recuperarContraseña() {
-        
-    }
-
     public void verInformacionClientes() {
         
     }

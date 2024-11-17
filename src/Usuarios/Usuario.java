@@ -7,6 +7,7 @@ package Usuarios;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.Random;
 
 /**
  * Clase abstracta que implementa la interfaz GestorDeAcceso y define atributos y método para
@@ -20,6 +21,7 @@ public abstract class Usuario implements GestorDeAcceso {
     protected String contraseña;
     private String nombre;
     private String apellido;
+    private String token;
 
     public Usuario(String nombreUsuario, String contraseña, String nombre, String apellido) {
         this.nombreUsuario = nombreUsuario;
@@ -67,12 +69,28 @@ public abstract class Usuario implements GestorDeAcceso {
         }
     }
 
+    private String generarCodigoVerificacion() {
+        Random random = new Random();
+        int codigo = 100000 + random.nextInt(900000); // Genera un número entre 100000 y 999999
+        return String.valueOf(codigo);
+    }
+
     // Los métodos abstractos se definen en las clases concretas
     @Override
     public boolean validarContraseña(String contraseña) {
         return this.contraseña.equals(hashContraseña(contraseña));
     }
 
+    public boolean verificarCodigo(String codigoIngresado) {
+        if (token.equals(codigoIngresado)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
-    public abstract void recuperarContraseña();   
+    public void recuperarContraseña(String nuevaContraseña){
+        this.contraseña = hashContraseña(nuevaContraseña);
+    }   
 }

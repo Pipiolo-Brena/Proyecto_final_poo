@@ -3,6 +3,7 @@ package Empresa;
 import Usuarios.*;
 import Extras.*;
 import Vuelos.Vuelo;
+import Sistema.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -94,6 +95,11 @@ public class Aerovuelos {
         }
     }
 
+    public void eliminarCliente(String llave) {
+        baseUsuarios.remove(llave);
+        guardarUsuarios(baseUsuarios);
+    }
+
     public void verUsuarios() {
         System.out.println("Lista de clientes:");
         int i = 1;
@@ -111,7 +117,7 @@ public class Aerovuelos {
     // Gestión de Vuelos
     // ========================
     
-    public void añadirVuelo(String tipo,String aerolinea, String numVuelo, String origen, String destino, LocalDateTime fechaSalida, double precio, int disponibilidad, int escalas, boolean vueloNacional, boolean requiereVisa) {
+    public void añadirVuelo(String tipo, String aerolinea, String numVuelo, String origen, String destino, LocalDateTime fechaSalida, double precio, int disponibilidad, int escalas, boolean vueloNacional, boolean requiereVisa) {
         Vuelo vuelo;
         if("Internacional".equalsIgnoreCase(tipo)) {
             vuelo = new Vuelo(aerolinea, numVuelo, origen, destino, fechaSalida, precio);
@@ -152,6 +158,25 @@ public class Aerovuelos {
         System.out.println("Vuelo eliminado exitosamente.");
     }
 
+    public void comprarVuelo(Cliente cliente, String numVuelo) {
+        Vuelo vuelo = buscarVuelo(numVuelo);
+
+        if(vuelo != null) {
+            GestionCompras.comprarVuelo(cliente, vuelo);
+        } else {
+            System.out.println("El vuelo no está disponible o no existe.");
+        }
+    }
+
+    private Vuelo buscarVuelo(String numVuelo) {
+        for(Vuelo vuelo : baseVuelos) {
+            if(vuelo.getNumVuelo().equals(numVuelo)) {
+                return vuelo;
+            }
+        }
+        return null;
+    }
+
     // ====================
     // Gestión de Hoteles
     // ====================
@@ -187,6 +212,40 @@ public class Aerovuelos {
         System.out.println("Hotel eliminado exitosamente.");
     }
 
+    public void reservarHotel(Cliente cliente, String nombreHotel) {
+        Hoteles hotel = buscarHotel(nombreHotel);
+
+        if(hotel != null) {
+            GestionCompras.comprarHotel(cliente, hotel);
+        } else {
+            System.out.println("El hotel no está disponible o no existe.");
+        }
+    }
+
+    private Hoteles buscarHotel(String nombreHotel) {
+        for(Hoteles hotel : baseHoteles) {
+            if(hotel.getNombre().equalsIgnoreCase(nombreHotel)) {
+                return hotel;
+            }
+        }
+        return null;
+    }
+
+    // ====================
+    // Compra de paquetes
+    // ====================
+
+    public void comprarPaquete(Cliente cliente, String numVuelo, String nombreHotel) {
+        Vuelo vuelo = buscarVuelo(numVuelo);
+        Hoteles hotel = buscarHotel(nombreHotel);
+
+        if(vuelo != null && hotel != null) {
+            Paquetes paquete = new Paquetes(vuelo, hotel);
+            GestionCompras.comprarPaquete(cliente, paquete);
+        } else {
+        System.out.println("El paquete no está disponible (verifica vuelo o hotel).");
+        }
+    }
 
     // ====================
     // Manejo de archivos

@@ -4,9 +4,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import Empresa.Aerovuelos;
-import Pagos.Efectivo.*;
-import Pagos.Linea.*;
-import Pagos.MetodosPago;
 import Usuarios.*;
 
 /**
@@ -114,8 +111,8 @@ public class GestionMenu {
                 case 1 -> compania.verVuelos();
                 case 2 -> compania.verHoteles();
                 case 3 -> comprarVuelo(cliente);
-                case 4 -> reservarHotel();
-                case 5 -> comprarPaquete();
+                case 4 -> reservarHotel(cliente);
+                case 5 -> comprarPaquete(cliente);
                 case 6 -> System.out.println("Gracias por usar el sistema de reservas. ¡Hasta pronto!");
                 default -> System.out.println("Opción no válida. Intente de nuevo.");
             }
@@ -126,24 +123,24 @@ public class GestionMenu {
         compania.verVuelos();
         System.out.println("Ingrese el número de vuelo que desea comprar:");
         String numVuelo = scanner.nextLine();
-        // Lógica para comprar vuelo
+        compania.comprarVuelo(cliente, numVuelo);
     }
 
-    private static void reservarHotel() {
+    private static void reservarHotel(Cliente cliente) {
         compania.verHoteles();
-        System.out.println("Ingrese la ubicación del hotel que desea comprar:");
-        String ubicacion = scanner.nextLine();
-        // Lógica para reservar un hotel
+        System.out.println("Ingrese el nombre del hotel que desea comprar:");
+        String nombreHotel = scanner.nextLine();
+        compania.reservarHotel(cliente, nombreHotel);
     }
 
-    private static void comprarPaquete() {
+    private static void comprarPaquete(Cliente cliente) {
         compania.verVuelos();
         compania.verHoteles();
         System.out.println("Ingrese el número de vuelo que desea comprar como paquete:");
         String numVuelo = scanner.nextLine();
         System.out.println("Ingrese la ubicación del hotel que desea comprar como paquete:");
-        String ubicacion = scanner.nextLine();
-        // Lógica para comprar un paquete
+        String nombreHotel = scanner.nextLine();
+        compania.comprarPaquete(cliente, numVuelo, nombreHotel);
 
     }
 
@@ -246,19 +243,19 @@ public class GestionMenu {
             }
             switch (opcion) {
                 case 1 -> compania.verUsuarios();
-                case 2 -> buscarClienteEnSistema();
-                case 3 -> eliminarCliente();
+                case 2 -> {
+                    System.out.println("Ingrese el número de usuario del cliente:");
+                    String numUsuario = scanner.nextLine();
+                    compania.buscarCliente(numUsuario);
+                }
+                case 3 -> {
+                    System.out.println("Ingrese el número de usuario del cliente:");
+                    String numUsuario = scanner.nextLine();
+                    compania.eliminarCliente(numUsuario);
+                }
                 case 4 -> System.out.println("Saliendo de la gestión de hoteles.");
                 default -> System.out.println("Opción no válida. Intente de nuevo.");
             }
         } while(opcion != 4);
-    }
-
-    private static void buscarClienteEnSistema() {
-        // Falta agregar lógica
-    }
-
-    private static void eliminarCliente() {
-        // Falta agregar lógica
     }
 }

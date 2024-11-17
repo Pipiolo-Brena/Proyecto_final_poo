@@ -58,6 +58,12 @@ public class GestionMenu {
                 menuCliente((Cliente)compania.buscarCliente(nombreUsuario));
             }
             case 'a', 'A' -> {
+                System.out.println("Ingresa la palabra clave de seguridad");
+                String clave=scanner.nextLine();
+                if (!("20VCM19".equals(clave))){
+                    System.out.println("Clave incorrecta\n");
+                    return;
+                }
                 String nombreUsuario = ingresarNombreUsuario();
                 System.out.print("Ingrese su contraseña: ");
                 String contraseña = scanner.nextLine();

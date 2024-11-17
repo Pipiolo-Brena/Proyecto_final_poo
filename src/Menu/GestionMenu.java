@@ -222,7 +222,28 @@ public class GestionMenu {
     }
 
     private static void agregarVuelo() {
-        // Agregar lógica
+        System.out.print("Ingrese la aerolínea: ");
+        String aerolinea = scanner.nextLine();
+        System.out.print("Ingrese el número de vuelo: ");
+        String numVuelo = scanner.nextLine();
+        System.out.print("Ingrese el origen: ");
+        String origen = scanner.nextLine();
+        System.out.print("Ingrese el destino: ");
+        String destino = scanner.nextLine();
+        System.out.print("Ingrese la fecha y hora de salida (formato yyyy-MM-dd HH:mm): ");
+        String fechaSalidaStr = scanner.nextLine();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime fechaSalida = LocalDateTime.parse(fechaSalidaStr, formatter);
+        System.out.print("Ingrese el precio base del vuelo: ");
+        double precio = scanner.nextDouble();
+        System.out.print("Ingrese la cantidad de escalas: ");
+        int escalas = scanner.nextInt();
+        System.out.print("¿Es vuelo nacional? (true/false): ");
+        boolean vueloNacional = scanner.nextBoolean();
+        System.out.print("¿Requiere visa? (true/false): ");
+        boolean requiereVisa = scanner.nextBoolean();
+
+        compania.añadirVuelo((vueloNacional ? "Nacional" : "Internacional"), aerolinea, numVuelo, origen, destino, fechaSalida, precio, escalas, escalas, vueloNacional, requiereVisa);
     }
 
     private static void menuGestionHoteles() {
@@ -252,7 +273,16 @@ public class GestionMenu {
     }
 
     private static void agregarHotel() {
+        System.out.print("Ingrese el nombre del hotel: ");
+        String nombre = scanner.nextLine();
+        System.out.print("Ingrese la ubicación del hotel: ");
+        String ubicacion = scanner.nextLine();
+        System.out.print("Ingrese el precio por noche: ");
+        double precio = scanner.nextDouble();
+        System.out.print("Ingrese la cantidad de habitaciones disponibles: ");
+        int habitacionesDisponibles = scanner.nextInt();
 
+        compania.añadirHotel(nombre, ubicacion, precio, habitacionesDisponibles);
     }
 
     private static void menuGestionClientes() {

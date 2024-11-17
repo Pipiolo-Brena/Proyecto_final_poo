@@ -189,10 +189,12 @@ public class Aerovuelos {
         return usuarios.get(llave);
     }
 
+
+    // Getters y setters
+    /** Se definen getters y setters para todos los atributos de clase */
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -200,7 +202,6 @@ public class Aerovuelos {
     public String getTelefono() {
         return telefono;
     }
-
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
@@ -208,20 +209,18 @@ public class Aerovuelos {
     public String getHorario() {
         return horario;
     }
-
     public void setHorario(String horario) {
         this.horario = horario;
     }
 
-    public Usuario getUsuarios(String nomUsuairo) {
-        return usuarios.get(nomUsuairo);
+    public Usuario getUsuario(String nomUsuairo) {
+        return baseUsuarios.get(nomUsuairo);
     }
 
     @Override
     public String toString() {
-        return "Banco: "+nombre+"\n"+
+        return "Sistema de Sistema de Reservas de Vuelos y Hoteles: "+nombre+"\n"+
                 "Teléfono: "+telefono+"\n"+
                 "Horario: "+horario+"\n";
     }
 }
-

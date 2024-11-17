@@ -4,6 +4,7 @@
  */
 package Vuelos;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,8 @@ import java.util.Map;
  * @author Equipo 5
  * @version 2024.11.17
  */
-public class Vuelo {
+public class Vuelo implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String aerolinea;
     private String numVuelo;
     private String origen;

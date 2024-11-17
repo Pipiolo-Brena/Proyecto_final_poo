@@ -4,6 +4,7 @@
  */
 package Usuarios;
 
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
@@ -16,7 +17,8 @@ import java.util.Random;
  * @author Equipo 5
  * @version 2024.11.15
  */
-public abstract class Usuario implements GestorDeAcceso {
+public abstract class Usuario implements GestorDeAcceso, Serializable {
+    private static final long serialVersionUID = 1L;
     protected String nombreUsuario;
     protected String contraseña;
     private String nombre;

@@ -5,6 +5,7 @@ import Extras.*;
 import Vuelos.Vuelo;
 import Sistema.*;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -65,9 +66,9 @@ public class Aerovuelos {
 
     public void registrarUsuario(String tipo, String nombreUsuario, String contraseña, String nombre, String apellido, String formaDePago) {
         Usuario usuario;
-        if ("Cliente".equalsIgnoreCase(tipo)) {
+        if ("Cliente".equals(tipo)) {
             usuario = new Cliente(nombreUsuario, contraseña, nombre, apellido, formaDePago);
-        } else if ("Administrador".equalsIgnoreCase(tipo)) {
+        } else if ("Administrador".equals(tipo)) {
             usuario = new Administrador(nombreUsuario, contraseña, nombre, apellido);
         } else {
             System.out.println("Tipo de usuario no reconocido.");
@@ -90,7 +91,6 @@ public class Aerovuelos {
         if(baseUsuarios.get(llave) instanceof Cliente) {
             return baseUsuarios.get(llave);
         } else {
-            System.out.println("El cliente que busca es un administrador.");
             return null;
         }
     }
@@ -254,14 +254,20 @@ public class Aerovuelos {
     @SuppressWarnings("unchecked")
     private HashMap<String, Usuario> leerUsuarios() {
         HashMap<String, Usuario> usuarios = new HashMap<>();
-        try (ObjectInputStream archivo = new ObjectInputStream(new FileInputStream(ARCHIVO_USUARIOS))) {
-            HashMap<String, Usuario> datosLeidos = (HashMap<String, Usuario>) archivo.readObject();
-            for (Usuario usuario : datosLeidos.values()) {
-                usuarios.put(usuario.getNombreUsuario(), usuario);
+        File archivoUsuarios = new File(ARCHIVO_USUARIOS);
+        if (archivoUsuarios.exists()) {
+            try (ObjectInputStream archivo = new ObjectInputStream(new FileInputStream(archivoUsuarios))) {
+                HashMap<String, Usuario> datosLeidos = (HashMap<String, Usuario>) archivo.readObject();
+                if (datosLeidos != null) {
+                    for (Usuario usuario : datosLeidos.values()) {
+                        usuarios.put(usuario.getNombreUsuario(), usuario);
+                    }
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                System.err.println("" );
             }
-        } catch (FileNotFoundException e) {
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+        } else {
+            System.out.println("");
         }
         return usuarios;
     }
@@ -280,13 +286,18 @@ public class Aerovuelos {
     
     @SuppressWarnings("unchecked")
     private ArrayList<Vuelo> leerVuelos() {
-        try (ObjectInputStream archivo = new ObjectInputStream(new FileInputStream(ARCHIVO_VUELOS))) {
-            baseVuelos = (ArrayList<Vuelo>) archivo.readObject();
-        } catch (FileNotFoundException e) {
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+        ArrayList<Vuelo> vuelos = new ArrayList<>();
+        File archivoVuelos = new File(ARCHIVO_VUELOS);
+        if (archivoVuelos.exists()) {
+            try (ObjectInputStream archivo = new ObjectInputStream(new FileInputStream(archivoVuelos))) {
+                vuelos = (ArrayList<Vuelo>) archivo.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                System.err.println("");
+            }
+        } else {
+            System.out.println("");
         }
-        return baseVuelos;
+        return vuelos;
     }
 
     public void agregarVuelo(Vuelo nuevo) {
@@ -304,11 +315,15 @@ public class Aerovuelos {
     @SuppressWarnings("unchecked")
     private ArrayList<Hoteles> leerHoteles() {
         ArrayList<Hoteles> hoteles = new ArrayList<>();
-        try (ObjectInputStream archivo = new ObjectInputStream(new FileInputStream(ARCHIVO_HOTELES))) {
-            hoteles = (ArrayList<Hoteles>) archivo.readObject();
-        } catch (FileNotFoundException e) {
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+        File archivoHoteles = new File(ARCHIVO_HOTELES);
+        if (archivoHoteles.exists()) {
+            try (ObjectInputStream archivo = new ObjectInputStream(new FileInputStream(archivoHoteles))) {
+                hoteles = (ArrayList<Hoteles>) archivo.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                System.err.println("");
+            }
+        } else {
+            System.out.println("");
         }
         return hoteles;
     }

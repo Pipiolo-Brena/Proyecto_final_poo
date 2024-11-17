@@ -4,6 +4,7 @@
  */
 package Extras;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -13,7 +14,8 @@ import java.time.temporal.ChronoUnit;
  * @author Equipo 5
  * @version 2024.11.17
  */
-public class Hoteles {
+public class Hoteles implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String nombre;
     private String ubicacion;
     private Double precio;

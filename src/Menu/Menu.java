@@ -31,6 +31,7 @@ public class Menu {
             try {
                 System.out.println("Seleccione una opción: ");
                 opcion = scanner.nextInt();
+                scanner.nextLine();
             } catch(InputMismatchException e) {
                 System.out.println("Error: Entrada inválida. Por favor ingrese un número válido.");
                 opcion = -1;

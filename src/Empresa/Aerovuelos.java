@@ -28,11 +28,11 @@ public class Aerovuelos {
     private String nombre;
     private String telefono;
     private String horario;
-    private static HashMap<String,Usuario> clientes;
+    private static HashMap<String,Usuario> usuarios;
     private static ArrayList<Vuelo> baseVuelos; 
     private static ArrayList<Paquetes> basePaquetes; 
     private final String ARCHIVO_VUELOS = "vuelos.dat";
-    private final String ARCHIVO_CLIENTES = "clientes.dat";
+    private final String ARCHIVO_USUARIOS = "usuarios.dat";
     public static Scanner entrada = new Scanner(System.in);
     private static Aerovuelos instancia;
 
@@ -40,7 +40,7 @@ public class Aerovuelos {
         this.nombre = nombre;
         this.telefono = telefono;
         this.horario = horario;
-        clientes = leerClientes(); // Objetos clientes
+        usuarios = leerUsuarios(); // Objetos Usuarios
         baseVuelos=leerVuelos();
         
     }
@@ -63,8 +63,8 @@ public class Aerovuelos {
             System.out.println("Tipo de usuario no reconocido.");
             return;
         }
-        clientes.put(nombreUsuario, usuario);
-        guardarClientes(clientes);
+        usuarios.put(nombreUsuario, usuario);
+        guardarUsuarios(usuarios);
         System.out.println("Registro exitoso.\n");
     }
     
@@ -95,10 +95,10 @@ public class Aerovuelos {
         }
     }
 
-    public void verClientes() {
+    public void verUsuarios() {
         System.out.println("Lista de clientes:");
         int i = 1;
-        for (Map.Entry<String, Usuario> entrada : clientes.entrySet()) {
+        for (Map.Entry<String, Usuario> entrada : usuarios.entrySet()) {
             String numCliente = entrada.getKey();
             Usuario usuario = entrada.getValue();
             System.out.println("Índice: " + i + "  Número de Cliente: " + numCliente + "  " + usuario);
@@ -124,19 +124,19 @@ public class Aerovuelos {
     }
 
     @SuppressWarnings("unchecked")
-    private HashMap<String, Usuario> leerClientes() {
-        HashMap<String, Usuario> clientes = new HashMap<>();
-        try (ObjectInputStream archivo = new ObjectInputStream(new FileInputStream(ARCHIVO_CLIENTES))) {
+    private HashMap<String, Usuario> leerUsuarios() {
+        HashMap<String, Usuario> usuarios = new HashMap<>();
+        try (ObjectInputStream archivo = new ObjectInputStream(new FileInputStream(ARCHIVO_USUARIOS))) {
             HashMap<String, Usuario> datosLeidos = (HashMap<String, Usuario>) archivo.readObject();
             for (Usuario usuario : datosLeidos.values()) {
-                clientes.put(usuario.getNombreUsuario(), usuario);
+                usuarios.put(usuario.getNombreUsuario(), usuario);
             }
         } catch (FileNotFoundException e) {
             System.out.println("Archivo no encontrado, se creará uno nuevo.");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return clientes;
+        return usuarios;
     }
     
 
@@ -161,16 +161,24 @@ public class Aerovuelos {
         }
     }
 
-    private void guardarClientes(HashMap<String, Usuario> clientes) {
-        try (ObjectOutputStream archivo = new ObjectOutputStream(new FileOutputStream(ARCHIVO_CLIENTES))) {
-            archivo.writeObject(clientes);
+    private void guardarUsuarios(HashMap<String, Usuario> usuarios) {
+        try (ObjectOutputStream archivo = new ObjectOutputStream(new FileOutputStream(ARCHIVO_USUARIOS))) {
+            archivo.writeObject(usuarios);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public boolean verificarUsuario(String nombreUsuario, String contraseña) {
+        Usuario usuario = usuarios.get(nombreUsuario);
+        if (usuario != null) {
+            return usuario.validarContraseña(contraseña);
+        }
+        return false;
+    }
+
     public void agregarCliente(String numCliente, Usuario cliente) {
-        clientes.put(numCliente,cliente);
+        usuarios.put(numCliente,cliente);
     }
     
     public void AgregarVuelo(Vuelo nuevo) {
@@ -178,7 +186,7 @@ public class Aerovuelos {
     }
 
     public Usuario buscarCliente(String llave) {
-        return clientes.get(llave);
+        return usuarios.get(llave);
     }
 
     public String getNombre() {

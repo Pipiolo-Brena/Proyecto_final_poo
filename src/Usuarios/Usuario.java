@@ -4,6 +4,10 @@
  */
 package Usuarios;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+
 /**
  * Clase abstracta que implementa la interfaz GestorDeAcceso y define atributos y método para
  * un usuario cualquiera en el sistema.
@@ -19,7 +23,7 @@ public abstract class Usuario implements GestorDeAcceso {
 
     public Usuario(String nombreUsuario, String contraseña, String nombre, String apellido) {
         this.nombreUsuario = nombreUsuario;
-        this.contraseña = contraseña;
+        this.contraseña = hashContraseña(contraseña);
         this.nombre = nombre;
         this.apellido = apellido;
     }
@@ -53,10 +57,20 @@ public abstract class Usuario implements GestorDeAcceso {
         this.apellido = apellido;
     }
 
+    private String hashContraseña(String contraseña) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashedBytes = md.digest(contraseña.getBytes());
+            return Base64.getEncoder().encodeToString(hashedBytes); // Convierte el hash en Base64
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error al crear el hash de la contraseña", e);
+        }
+    }
+
     // Los métodos abstractos se definen en las clases concretas
     @Override
     public boolean validarContraseña(String contraseña) {
-        return this.contraseña.equals(contraseña);
+        return this.contraseña.equals(hashContraseña(contraseña));
     }
 
     @Override

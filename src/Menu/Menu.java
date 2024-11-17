@@ -11,21 +11,22 @@ import Pagos.Efectivo.OXXO;
 import Empresa.Aerovuelos;
 import Usuarios.Administrador;
 import Usuarios.Cliente;
+import Usuarios.Usuario;
 
 /**
  *
  * @author PC
  */
 public class Menu {
-    private Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
     //Implementacion de facade
-    public Aerovuelos Compania= Aerovuelos.getInstancia( null,  null,  null);
+    public static Aerovuelos Compania= Aerovuelos.getInstancia( null,  null,  null);
 
     public void mostrarMenuPrincipal() {
         int opcion = -1;
         System.out.println("Bienvenido al Sistema de Reservas de Vuelos y Hoteles");
-        System.out.println("1. Iniciar Sesión como Cliente");
-        System.out.println("2. Iniciar Sesión como Administrador");
+        System.out.println("1. Iniciar Sesión" );
+        System.out.println("2. Registrarse");
         System.out.println("3. Salir");
         try {
             System.out.print("Seleccione una opción: ");
@@ -35,24 +36,31 @@ public class Menu {
             scanner.nextLine();
         }
         switch (opcion) {
-            case 1 -> iniciarSesionCliente();
-            case 2 -> iniciarSesionAdministrador();
+            case 1 -> iniciarSesion();
+            case 2 -> Registrarse();
             case 3 -> System.out.println("Gracias por usar el sistema.");
             default -> System.out.println("Opción inválida.");
         }
     }
 
-    private void iniciarSesionCliente() {
+    private void iniciarSesion() {
         try {
             System.out.print("Ingrese su nombre de usuario: ");
             String nombreUsuario = scanner.next();
             System.out.print("Ingrese su contraseña: ");
             String contraseña = scanner.next();
-            Cliente cliente = new Cliente(nombreUsuario, contraseña, nombreUsuario, "Nombre", "Apellido", metodoDePago); //datos cliente
-            if (cliente.validarContraseña(contraseña)) {
-                mostrarMenuCliente(cliente);
+            if (Compania.verificarUsuario(nombreUsuario, contraseña)) {
+                Usuario usuario =Compania.getUsuarios(nombreUsuario);
+                if(usuario instanceof Cliente){
+                    Cliente cliente=(Cliente) usuario;
+                    mostrarMenuCliente(cliente);
+                }else{
+                    Administrador administrador=(Administrador) usuario;
+                    mostrarMenuAdministrador(administrador);
+                }
+
             } else {
-                System.out.println("Contraseña incorrecta.");
+                System.out.println("Usuario o contraseña incorrectas.");
             }
         } catch(InputMismatchException e) {
             System.out.println("Error: Entrada de datos inválida para iniciar sesión como cliente.");
@@ -60,21 +68,15 @@ public class Menu {
         }
     }
 
-    private void iniciarSesionAdministrador() {
+    private void Registrarse() {
         try {
-            Random numAleatorio = new Random();
-            System.out.print("Ingrese su nombre de usuario: ");
-            String nombreUsuario = scanner.next();
-            System.out.print("Ingrese su contraseña: ");
-            String contraseña = scanner.next();
-    
-            int numEmpleado = 1000 + numAleatorio.nextInt(2001);
-            Administrador admin = new Administrador(nombreUsuario, contraseña, "Nombre", "Apellido", numEmpleado); //datos administrador
-            if (admin.validarContraseña(contraseña)) {
-                mostrarMenuAdministrador(admin);
-            } else {
-                System.out.println("Contraseña incorrecta.");
-            }
+            String tipo=scanner.nextLine();
+            String nombreUsuario=scanner.nextLine();
+            String contraseña=scanner.nextLine();
+            String nombre=scanner.nextLine();
+            String apellido=scanner.nextLine();
+            String formaDePago=scanner.nextLine();
+            Compania.registrarUsuario(tipo, nombreUsuario, contraseña, nombre, apellido, formaDePago);
         } catch(InputMismatchException e) {
             System.out.println("Error: Entrada de datos inválida para iniciar sesión como cliente.");
             scanner.nextLine();
@@ -90,9 +92,7 @@ public class Menu {
                 System.out.println("3. Ver paquetes");
                 System.out.println("4. Comprar Vuelo");
                 System.out.println("5. Comprar paquete de vuelo + hotel");
-                System.out.println("6. Realizar pago en Oxxo");
-                System.out.println("7. Realizar pago con tarjeta");
-                System.out.println("8. Salir");
+                System.out.println("6. Salir");
                 opcion = scanner.nextInt();
     
                 switch (opcion) {
@@ -112,11 +112,11 @@ public class Menu {
                         comprarPaquete();
                         break;
                     case 6:
-                        realizarPago();//en oxxo
+                        //realizarPago();//en oxxo
                         
                         break;
                     case 7:
-                        realizarPagoTarjeta();
+                        //realizarPagoTarjeta();
                         break;
                     case 8:
                         System.out.println("Gracias por usar el sistema de reservas. ¡Hasta pronto!");

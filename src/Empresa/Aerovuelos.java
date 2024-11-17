@@ -213,6 +213,10 @@ public class Aerovuelos {
         this.horario = horario;
     }
 
+    public Usuario getUsuarios(String nomUsuairo) {
+        return usuarios.get(nomUsuairo);
+    }
+
     @Override
     public String toString() {
         return "Banco: "+nombre+"\n"+

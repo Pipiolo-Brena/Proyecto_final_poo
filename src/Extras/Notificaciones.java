@@ -8,7 +8,7 @@ package Extras;
  *
  * @author PC
  */
-public class Notifiaciones {//Clase de Notificaciones usando Patrón de Diseño Singleton
+public class Notificaciones {//Clase de Notificaciones usando Patrón de Diseño Singleton
     /*private static Notificaciones instancia;
 
     private Notificaciones() { }

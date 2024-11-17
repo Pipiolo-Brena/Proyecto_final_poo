@@ -5,68 +5,73 @@
 package Usuarios.Datos;
 
 import java.time.LocalDateTime;
-
+import java.util.Random;
 
 import Usuarios.Cliente;
 
 /**
- *
- * @author PC
+ * Clase que implementa los tickets de compra que se generan con cada compra.
+ * 
+ * @author Equipo 5
+ * @version 2024.11.17
  */
 public class Ticket {
     private int idTicket;
     private Cliente cliente;
-    private String numVuelo;
+    private String tipoServicio; // "Vuelo", "Hotel", "Paquete"
+    private String detalleServicio; // Detalles del servicio
     private LocalDateTime fechaCompra;
-    private String lugar;
+    private double precio;
 
-    //constructor
-    public Ticket(int idTicket, Cliente cliente, String numVuelo, LocalDateTime fechaCompra, String lugar) {
-        this.idTicket = idTicket;
+    /** Contructor de clase */
+    public Ticket(Cliente cliente, String tipoServicio, String detalleServicio, LocalDateTime fechaCompra, double precio) {
+        this.idTicket = generarId();
         this.cliente = cliente;
-        this.numVuelo = numVuelo;
-        this.fechaCompra = fechaCompra;
-        this.lugar=lugar;
+        this.tipoServicio = tipoServicio;
+        this.detalleServicio = detalleServicio;
+        this.precio = precio;
     }
 
-    //setters getters
+    private int generarId() {
+        Random random = new Random();
+        return 100_000_000 + random.nextInt(900_000_000);
+    }
+
+    // Getters
     public int getIdTicket() {
         return idTicket;
-    }
-
-    public void setIdTicket(int idTicket) {
-        this.idTicket = idTicket;
     }
 
     public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public String getTipoServicio() {
+        return tipoServicio;
     }
 
-    public String getNumVuelo() {
-        return numVuelo;
+    public String getDetalleServicio() {
+        return detalleServicio;
+    }
+   
+    
+    public double getPrecio() {
+        return precio;
     }
 
-    public void setNumVuelo(String numVuelo) {
-        this.numVuelo = numVuelo;
+    public String detallesCompletos() {
+        return "==== TICKET DE COMPRA ====\n" +
+                "ID del Ticket: " + idTicket + "\n" +
+                "Cliente: " + cliente.getNombre() + " " + cliente.getApellido() +
+                "Tipo de servicio: " + tipoServicio + "\n" +
+                "Detalles del servicio:\n" + detalleServicio + "\n" +
+                "Fecha de compra" + fechaCompra + "\n" +
+                "Total de compra: $" + precio + "\n" +
+                "==========================\n";
     }
-
-    public LocalDateTime getFechaCompra() {
-        return fechaCompra;
-    }
-
-    public void setFechaCompra(LocalDateTime fechaCompra) {
-        this.fechaCompra = fechaCompra;
-    }
-
 
     @Override
     public String toString() {
-        return "Ticket ID: " + idTicket + ", Cliente: " + cliente.getNombreUsuario() + ", Vuelo: " + numVuelo;
+        return "Ticket ID: " + idTicket + ", Servicio: " + tipoServicio + ", Detalle: " + detalleServicio;
     }
-
-    
 }

@@ -110,7 +110,7 @@ public class Aerovuelos {
     // Método para eliminar una computadora
     public void eliminarVuelo() {
         verVuelos();
-        System.out.println("A partir del índice, ¿Qué máquina se quiere eliminar?");
+        System.out.println("A partir del índice, ¿Qué vuelo se quiere eliminar?");
         int num = entrada.nextInt();
 
         if (num < 1 || num > baseVuelos.size()) {
@@ -120,7 +120,7 @@ public class Aerovuelos {
 
         baseVuelos.remove(num - 1);
         guardarVuelos(baseVuelos);
-        System.out.println("Computadora eliminada exitosamente.");
+        System.out.println("Vuelo eliminado exitosamente.");
     }
 
     @SuppressWarnings("unchecked")

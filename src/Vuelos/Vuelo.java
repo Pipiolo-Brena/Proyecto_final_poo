@@ -5,6 +5,8 @@
 package Vuelos;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -21,6 +23,7 @@ public class Vuelo {
     protected int escalas;
     protected boolean vueloNacional;
     private boolean requiereVisa;
+    private Map<String, Asiento> asientos; 
 
 
     //constructor
@@ -33,6 +36,7 @@ public class Vuelo {
         this.precio = precio;
         this.disponibilidad = disponibilidad;
         this.escalas = 0;
+        this.asientos = new HashMap<>();
         this.vueloNacional = false;
         this.requiereVisa=false;
     }
@@ -48,6 +52,7 @@ public class Vuelo {
         this.escalas = escalas;
         this.vueloNacional = vueloNacional;
         this.requiereVisa= requiereVisa;
+        this.asientos = new HashMap<>();
     }
 
     //metodos
@@ -60,6 +65,42 @@ public class Vuelo {
         "Fecha de salida: " + getFechaSalida() + 
         "Precio: " + getPrecio());
     
+    }
+
+    public void agregarAsiento(String numero, boolean esVIP) {
+        if (asientos.containsKey(numero)) {
+            throw new IllegalArgumentException("El asiento ya existe.");
+        }
+        asientos.put(numero, new Asiento(numero, esVIP));
+    }
+
+    // Método para reservar un asiento
+    public void reservarAsiento(String numero) {
+        Asiento asiento = obtenerAsiento(numero);
+        asiento.reservar();
+        System.out.println("El asiento " + numero + " ha sido reservado.");
+    }
+
+    // Método para cancelar un asiento
+    public void cancelarAsiento(String numero) {
+        Asiento asiento = obtenerAsiento(numero);
+        asiento.cancelar();
+        System.out.println("La reserva del asiento " + numero + " ha sido cancelada.");
+    }
+
+    // Método para mostrar el estado de los asientos
+    public void mostrarAsientos() {
+        System.out.println("Estado de los asientos:");
+        for (Asiento asiento : asientos.values()) {
+            System.out.println(asiento);
+        }
+    }
+
+    private Asiento obtenerAsiento(String numero) {
+        if (!asientos.containsKey(numero)) {
+            throw new IllegalArgumentException("El asiento no existe.");
+        }
+        return asientos.get(numero);
     }
 
     //setters getters

@@ -69,18 +69,17 @@ public abstract class Usuario implements GestorDeAcceso {
         }
     }
 
-    private String generarCodigoVerificacion() {
+    private int generarCodigoVerificacion() {
         Random random = new Random();
         int codigo = 100000 + random.nextInt(900000); // Genera un número entre 100000 y 999999
-        return String.valueOf(codigo);
+        return codigo;
     }
 
     public void enviarCodigo(String correoUsuario) {
-        Random random = new Random();
-        int codigo = 100000 + random.nextInt(900000); // Genera un número entre 100000 y 999999
+        int codigo = generarCodigoVerificacion();
         this.token =String.valueOf(codigo);
         System.out.println("Enviando código de verificación " + token + " al correo: " + correoUsuario);
-    }
+    } // Modifiqué este método para implementar generarCodigoVerificacion()
 
     // Los métodos abstractos se definen en las clases concretas
     @Override

@@ -8,16 +8,18 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 /**
- *
- * @author PC
+ * Representa un hotel con habitaciones disponibles para reserva.
+ * 
+ * @author Equipo 5
+ * @version 2024.11.17
  */
 public class Hoteles {
     private String nombre;
     private String ubicacion;
     private Double precio;
-    
-    private int habitacionesDisponibles; //Considero que esta bien dejarlo así
+    private int habitacionesDisponibles;
 
+    /** Constructor de la clase Hoteles. */
     public Hoteles(String nombre, String ubicacion, Double precio, int habitacionesDisponibles) {
         this.nombre = nombre;
         this.ubicacion = ubicacion;
@@ -25,7 +27,7 @@ public class Hoteles {
         this.habitacionesDisponibles = habitacionesDisponibles;
     }
 
-    //Metodos de reserva
+    /** Reserva una habitación si hay disponibilidad. */
     public void reservarHabitacion() {
         if (habitacionesDisponibles > 0) {
             habitacionesDisponibles--;
@@ -34,14 +36,15 @@ public class Hoteles {
         }
     }
 
-    //metodo para calcular el costo por dia
+    /** Calcula el costo total de la estancia. */
     public double calcularCosto(LocalDate fechaInicio, LocalDate fechaFin) {
-        long dias = ChronoUnit.DAYS.between(fechaInicio, fechaFin);
+        long dias = ChronoUnit.DAYS.between(fechaInicio, fechaFin); // Calcula el costo por día.
         return dias * precio;
     }
 
 
-    //setters getters
+    // Getters y setters
+    /** Se definen getters y setters para todos los atributos. */
     public String getNombre() {
         return nombre;
     }

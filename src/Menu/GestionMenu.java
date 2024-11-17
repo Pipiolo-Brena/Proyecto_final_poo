@@ -1,8 +1,8 @@
 package Menu;
 
-import java.util.InputMismatchException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import Empresa.Aerovuelos;
@@ -147,7 +147,9 @@ public class GestionMenu {
         compania.verVuelos();
         System.out.println("Ingrese el número de vuelo que desea comprar:");
         String numVuelo = scanner.nextLine();
-        compania.comprarVuelo(cliente, numVuelo);
+        System.out.println("Ingrese el asiento que desea comprar:");
+        String numeroAsiento = scanner.nextLine();
+        compania.comprarVuelo(cliente, numVuelo, numeroAsiento);
     }
 
     private static void reservarHotel(Cliente cliente) {
@@ -331,3 +333,4 @@ public class GestionMenu {
         }
     }
 }
+

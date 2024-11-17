@@ -37,8 +37,8 @@ public class Cliente extends Usuario {
     @SuppressWarnings("unused")
     private GestionReservas baseReservas; // reservas
 
-    public Cliente(String nombreUsuario, String contraseña, String numUsuario, String nombre, String apellido, String metodoDePago) {
-        super(nombreUsuario, contraseña, numUsuario, nombre, apellido);
+    public Cliente(String nombreUsuario, String contraseña, String nombre, String apellido, String metodoDePago) {
+        super(nombreUsuario, contraseña, nombre, apellido);
         this.gestorDePagos = new GestorPagos();
         this.ticketsGenerados = new ArrayList<>();   
         this.baseVuelos = new ArrayList<>();

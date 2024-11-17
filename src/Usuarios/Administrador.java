@@ -13,8 +13,8 @@ public class Administrador extends Usuario {
     private String apellido;
     
     //constructor
-    public Administrador(String nombreUsuario, String contraseña, String nombre, String apellido, String numEmpleado) {
-        super( numEmpleado,nombre,  apellido,nombreUsuario, contraseña);
+    public Administrador(String nombreUsuario, String contraseña, String nombre, String apellido) {
+        super(nombreUsuario,  contraseña,nombre, apellido);
         this.nombre = nombre;
         this.apellido = apellido;
     }

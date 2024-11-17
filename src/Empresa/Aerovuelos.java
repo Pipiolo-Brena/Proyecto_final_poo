@@ -53,17 +53,17 @@ public class Aerovuelos {
         return instancia;
     }
 
-    public void registrarUsuario(String tipo, String id, String nombreUsuario, String contraseña, String nombre, String apellido, String formaDePago) {
+    public void registrarUsuario(String tipo, String nombreUsuario, String contraseña, String nombre, String apellido, String formaDePago) {
         Usuario usuario;
         if ("Cliente".equalsIgnoreCase(tipo)) {
-            usuario = new Cliente(id, nombreUsuario, contraseña, nombre, apellido, formaDePago);
+            usuario = new Cliente(nombreUsuario, contraseña, nombre, apellido, formaDePago);
         } else if ("Administrador".equalsIgnoreCase(tipo)) {
-            usuario = new Administrador(nombreUsuario, contraseña, nombre, apellido, id);
+            usuario = new Administrador(nombreUsuario, contraseña, nombre, apellido);
         } else {
             System.out.println("Tipo de usuario no reconocido.");
             return;
         }
-        clientes.put(id, usuario);
+        clientes.put(nombreUsuario, usuario);
         guardarClientes(clientes);
         System.out.println("Registro exitoso.\n");
     }
@@ -129,7 +129,7 @@ public class Aerovuelos {
         try (ObjectInputStream archivo = new ObjectInputStream(new FileInputStream(ARCHIVO_CLIENTES))) {
             HashMap<String, Usuario> datosLeidos = (HashMap<String, Usuario>) archivo.readObject();
             for (Usuario usuario : datosLeidos.values()) {
-                clientes.put(usuario.getNumUsuario(), usuario);
+                clientes.put(usuario.getNombreUsuario(), usuario);
             }
         } catch (FileNotFoundException e) {
             System.out.println("Archivo no encontrado, se creará uno nuevo.");

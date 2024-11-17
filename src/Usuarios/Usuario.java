@@ -14,20 +14,14 @@ package Usuarios;
 public abstract class Usuario implements GestorDeAcceso {
     protected String nombreUsuario;
     protected String contraseña;
-    private String numUsuario;
     private String nombre;
     private String apellido;
 
-    public Usuario(String nombreUsuario, String contraseña, String numUsuario, String nombre, String apellido) {
+    public Usuario(String nombreUsuario, String contraseña, String nombre, String apellido) {
         this.nombreUsuario = nombreUsuario;
         this.contraseña = contraseña;
-        this.numUsuario = numUsuario;
         this.nombre = nombre;
         this.apellido = apellido;
-    }
-
-    public String getNumUsuario() {
-        return numUsuario; // dado que el número de usuario no cambia una vez creado, solo se define su getter
     }
 
     // Getters y setters para el resto de atributos

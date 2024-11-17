@@ -7,7 +7,7 @@ import Sistema.*;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.FileNotFoundException; // Se debería de implementar esta excepción?
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -158,11 +158,11 @@ public class Aerovuelos {
         System.out.println("Vuelo eliminado exitosamente.");
     }
 
-    public void comprarVuelo(Cliente cliente, String numVuelo) {
+    public void comprarVuelo(Cliente cliente, String numVuelo, String numeroAsiento) {
         Vuelo vuelo = buscarVuelo(numVuelo);
 
         if(vuelo != null) {
-            GestionCompras.comprarVuelo(cliente, vuelo);
+            GestionCompras.comprarVuelo(cliente, vuelo, numeroAsiento);
         } else {
             System.out.println("El vuelo no está disponible o no existe.");
         }

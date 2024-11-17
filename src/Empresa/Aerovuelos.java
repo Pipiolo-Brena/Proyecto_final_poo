@@ -28,9 +28,9 @@ public class Aerovuelos {
     private String nombre;
     private String telefono;
     private String horario;
-    private HashMap<String,Usuario> clientes;
-    private ArrayList<Vuelo> baseVuelos; 
-    private ArrayList<Paquetes> basePaquetes; 
+    private static HashMap<String,Usuario> clientes;
+    private static ArrayList<Vuelo> baseVuelos; 
+    private static ArrayList<Paquetes> basePaquetes; 
     private final String ARCHIVO_VUELOS = "vuelos.dat";
     private final String ARCHIVO_CLIENTES = "clientes.dat";
     public static Scanner entrada = new Scanner(System.in);
@@ -40,8 +40,8 @@ public class Aerovuelos {
         this.nombre = nombre;
         this.telefono = telefono;
         this.horario = horario;
-        this.clientes = new HashMap<String,Usuario>(); // Objetos clientes
-        this.baseVuelos=leerVuelos();
+        clientes = leerClientes(); // Objetos clientes
+        baseVuelos=leerVuelos();
         
     }
 
@@ -54,7 +54,6 @@ public class Aerovuelos {
     }
 
     public void registrarUsuario(String tipo, String id, String nombreUsuario, String contraseña, String nombre, String apellido, String formaDePago) {
-        HashMap<String,Usuario> usuarios = leerClientes();
         Usuario usuario;
         if ("Cliente".equalsIgnoreCase(tipo)) {
             usuario = new Cliente(id, nombreUsuario, contraseña, nombre, apellido, formaDePago);
@@ -64,15 +63,13 @@ public class Aerovuelos {
             System.out.println("Tipo de usuario no reconocido.");
             return;
         }
-        agregarCliente(id, usuario);
-        usuarios.put(id, usuario);
-        guardarClientes(usuarios);
+        clientes.put(id, usuario);
+        guardarClientes(clientes);
         System.out.println("Registro exitoso.\n");
     }
     
 
     public void añadirVuelo(String tipo,String aerolinea, String numVuelo, String origen, String destino, LocalDateTime fechaSalida, double precio, int disponibilidad, int escalas, boolean vueloNacional,boolean requiereVisa) {
-        ArrayList<Vuelo> vuelos = leerVuelos();
         Vuelo nuevo;
         if ("internacional".equalsIgnoreCase(tipo)) {
             nuevo = new Vuelo( aerolinea,  numVuelo,  origen,  destino,  fechaSalida,  precio,  disponibilidad);
@@ -83,25 +80,22 @@ public class Aerovuelos {
             return;
         }
 
-        AgregarVuelo(nuevo);
-        vuelos.add(nuevo);
-        guardarVuelos(vuelos);
+        baseVuelos.add(nuevo);
+        guardarVuelos(baseVuelos);
         System.out.println("Vuelo añadido exitosamente.");
     }
 
     // Método para ver todas las computadoras
     public void verVuelos() {
-        ArrayList<Vuelo> vuelos = leerVuelos();
         System.out.println("Lista de computadoras: ");
         int i = 1;
-        for (Vuelo vuelo : vuelos) {
+        for (Vuelo vuelo : baseVuelos) {
             System.out.println("Índice: " + i + "  " + vuelo);
             i++;
         }
     }
 
     public void verClientes() {
-        HashMap<String, Usuario> clientes = leerClientes();
         System.out.println("Lista de clientes:");
         int i = 1;
         for (Map.Entry<String, Usuario> entrada : clientes.entrySet()) {
@@ -115,18 +109,17 @@ public class Aerovuelos {
 
     // Método para eliminar una computadora
     public void eliminarVuelo() {
-        ArrayList<Vuelo> vuelos = leerVuelos();
         verVuelos();
         System.out.println("A partir del índice, ¿Qué máquina se quiere eliminar?");
         int num = entrada.nextInt();
 
-        if (num < 1 || num > vuelos.size()) {
+        if (num < 1 || num > baseVuelos.size()) {
             System.out.println("Índice no válido.");
             return;
         }
 
-        vuelos.remove(num - 1);
-        guardarVuelos(vuelos);
+        baseVuelos.remove(num - 1);
+        guardarVuelos(baseVuelos);
         System.out.println("Computadora eliminada exitosamente.");
     }
 
@@ -149,21 +142,20 @@ public class Aerovuelos {
 
     @SuppressWarnings("unchecked")
     private ArrayList<Vuelo> leerVuelos() {
-        ArrayList<Vuelo> vuelos = new ArrayList<>();
         try (ObjectInputStream archivo = new ObjectInputStream(new FileInputStream(ARCHIVO_VUELOS))) {
-            vuelos = (ArrayList<Vuelo>) archivo.readObject();
+            baseVuelos = (ArrayList<Vuelo>) archivo.readObject();
         } catch (FileNotFoundException e) {
             System.out.println("Archivo no encontrado, se creará uno nuevo.");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return vuelos;
+        return baseVuelos;
     }
 
 
     private void guardarVuelos(ArrayList<Vuelo> vuelos) {
         try (ObjectOutputStream archivo = new ObjectOutputStream(new FileOutputStream(ARCHIVO_VUELOS))) {
-            archivo.writeObject(vuelos);
+            archivo.writeObject(baseVuelos);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -7,9 +7,9 @@ package Menu;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
-
+import Pagos.Efectivo.OXXO;
 import Empresa.Aerovuelos;
-import Usuarios.Adminstrador;
+import Usuarios.Administrador;
 import Usuarios.Cliente;
 
 /**
@@ -48,13 +48,13 @@ public class Menu {
             String nombreUsuario = scanner.next();
             System.out.print("Ingrese su contraseña: ");
             String contraseña = scanner.next();
-            Cliente cliente = new Cliente(nombreUsuario, contraseña, "Nombre", "Apellido"); //datos cliente
+            Cliente cliente = new Cliente(nombreUsuario, contraseña, nombreUsuario, "Nombre", "Apellido", metodoDePago); //datos cliente
             if (cliente.validarContraseña(contraseña)) {
                 mostrarMenuCliente(cliente);
             } else {
                 System.out.println("Contraseña incorrecta.");
             }
-        } catch(InputMistmatchException e) {
+        } catch(InputMismatchException e) {
             System.out.println("Error: Entrada de datos inválida para iniciar sesión como cliente.");
             scanner.nextLine();
         }
@@ -62,20 +62,20 @@ public class Menu {
 
     private void iniciarSesionAdministrador() {
         try {
-            Random numAleatorio = new Randon();
+            Random numAleatorio = new Random();
             System.out.print("Ingrese su nombre de usuario: ");
             String nombreUsuario = scanner.next();
             System.out.print("Ingrese su contraseña: ");
             String contraseña = scanner.next();
     
             int numEmpleado = 1000 + numAleatorio.nextInt(2001);
-            Adminstrador admin = new Adminstrador(nombreUsuario, contraseña, "Nombre", "Apellido", numEmpleado); //datos administrador
+            Administrador admin = new Administrador(nombreUsuario, contraseña, "Nombre", "Apellido", numEmpleado); //datos administrador
             if (admin.validarContraseña(contraseña)) {
                 mostrarMenuAdministrador(admin);
             } else {
                 System.out.println("Contraseña incorrecta.");
             }
-        } catch(InputMistmatchException e) {
+        } catch(InputMismatchException e) {
             System.out.println("Error: Entrada de datos inválida para iniciar sesión como cliente.");
             scanner.nextLine();
         }
@@ -112,8 +112,8 @@ public class Menu {
                         comprarPaquete();
                         break;
                     case 6:
-                        realizarPagoEnOxxo();
-                        public boolean realizarPagoEnOxxo() {};
+                        realizarPago();//en oxxo
+                        
                         break;
                     case 7:
                         realizarPagoTarjeta();
@@ -158,7 +158,7 @@ public class Menu {
         System.out.println("Compra de paquete vuelo + hotel seleccionada.");
     }
 
-    private void mostrarMenuAdministrador(Adminstrador admin) {
+    private void mostrarMenuAdministrador(Administrador admin) {
         System.out.println("1. Gestionar Vuelos");
         System.out.println("2. Gestionar Hoteles");
         System.out.println("3. Gestionar Clientes");

@@ -4,6 +4,9 @@
  */
 package Extras;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 /**
  *
  * @author PC
@@ -29,6 +32,12 @@ public class Hoteles {
         } else {
             System.out.println("No hay habitaciones disponibles.");
         }
+    }
+
+    //metodo para calcular el costo por dia
+    public double calcularCosto(LocalDate fechaInicio, LocalDate fechaFin) {
+        long dias = ChronoUnit.DAYS.between(fechaInicio, fechaFin);
+        return dias * precio;
     }
 
 

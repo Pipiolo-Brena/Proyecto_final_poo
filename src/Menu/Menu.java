@@ -21,6 +21,9 @@ public class Menu {
         int opcion;
 
         do {
+            System.out.println("");
+            System.out.println("");
+            System.out.println("");
             System.out.println("Bienvenido al Sistema de Reservas de Vuelos y Hoteles.");
             System.out.println("1.- Iniciar sesión");
             System.out.println("2.- Registrarse");

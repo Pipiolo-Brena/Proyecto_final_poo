@@ -43,6 +43,7 @@ public class GestionMenu {
     public static void registrarse() {
         System.out.println("Registrarse como cliente o como administrador? (c/a)");
         char opcion = scanner.next().charAt(0);
+        scanner.nextLine();
 
         switch (opcion) {
             case 'c', 'C' -> {
@@ -113,9 +114,11 @@ public class GestionMenu {
             try {
                 System.out.print("Seleccione una opción: ");
                 opcion = scanner.nextInt();
+                espacios();
             } catch(InputMismatchException e) {
                 System.out.println("Error: Entrada de datos inválida.");
                 scanner.nextLine();
+                espacios();
             }
             switch (opcion) {
                 case 1 -> compania.verVuelos();
@@ -167,9 +170,11 @@ public class GestionMenu {
             try {
                 System.out.print("Selecione una opción: ");
                 opcion = scanner.nextInt();
+                espacios();
             } catch(InputMismatchException e) {
                 System.out.println("Error: Entrada de datos inválida.");
                 scanner.nextLine();
+                espacios();
             }
             switch(opcion) {
                 case 1 -> menuGestionVuelos();
@@ -191,9 +196,11 @@ public class GestionMenu {
             try {
                 System.out.print("Selecione una opción: ");
                 opcion = scanner.nextInt();
+                espacios();
             } catch(InputMismatchException e) {
                 System.out.println("Error: Entrada de datos inválida.");
                 scanner.nextLine();
+                espacios();
             }
             switch (opcion) {
                 case 1 -> agregarVuelo();
@@ -219,9 +226,11 @@ public class GestionMenu {
             try {
                 System.out.print("Selecione una opción: ");
                 opcion = scanner.nextInt();
+                espacios();
             } catch(InputMismatchException e) {
                 System.out.println("Error: Entrada de datos inválida.");
                 scanner.nextLine();
+                espacios();
             }
             switch (opcion) {
                 case 1 -> agregarHotel();
@@ -247,21 +256,27 @@ public class GestionMenu {
             try {
                 System.out.print("Selecione una opción: ");
                 opcion = scanner.nextInt();
+                
             } catch(InputMismatchException e) {
                 System.out.println("Error: Entrada de datos inválida.");
                 scanner.nextLine();
             }
             switch (opcion) {
-                case 1 -> compania.verUsuarios();
+                case 1 -> {
+                    compania.verUsuarios();
+                    espacios();
+                }
                 case 2 -> {
                     System.out.println("Ingrese el número de usuario del cliente:");
                     String numUsuario = scanner.nextLine();
                     compania.buscarCliente(numUsuario);
+                    espacios();
                 }
                 case 3 -> {
                     System.out.println("Ingrese el número de usuario del cliente:");
                     String numUsuario = scanner.nextLine();
                     compania.eliminarCliente(numUsuario);
+                    espacios();
                 }
                 case 4 -> System.out.println("Saliendo de la gestión de hoteles.");
                 default -> System.out.println("Opción no válida. Intente de nuevo.");

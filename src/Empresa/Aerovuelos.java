@@ -260,7 +260,6 @@ public class Aerovuelos {
                 usuarios.put(usuario.getNombreUsuario(), usuario);
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Archivo no encontrado, se creará uno nuevo.");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -284,7 +283,6 @@ public class Aerovuelos {
         try (ObjectInputStream archivo = new ObjectInputStream(new FileInputStream(ARCHIVO_VUELOS))) {
             baseVuelos = (ArrayList<Vuelo>) archivo.readObject();
         } catch (FileNotFoundException e) {
-            System.out.println("Archivo no encontrado, se creará uno nuevo.");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -309,7 +307,6 @@ public class Aerovuelos {
         try (ObjectInputStream archivo = new ObjectInputStream(new FileInputStream(ARCHIVO_HOTELES))) {
             hoteles = (ArrayList<Hoteles>) archivo.readObject();
         } catch (FileNotFoundException e) {
-            System.out.println("Archivo de hoteles no encontrado, se creará uno nuevo.");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

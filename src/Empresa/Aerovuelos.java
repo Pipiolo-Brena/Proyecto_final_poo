@@ -24,7 +24,10 @@ import java.util.Scanner;
  * @version 2024.11.17
  * Clase para la implementación de Facade y Singleton
  */
-public class Aerovuelos {
+@SuppressWarnings("unused")
+public class Aerovuelos implements Sujeto {
+    public ArrayList<Observador> observadores;
+
     /** Atributos de clase */
     private String nombre;
     private String telefono;
@@ -60,6 +63,24 @@ public class Aerovuelos {
         return instancia;
     }
 
+    // Métodos de Subject para implementar el patrón de diseño Observer
+    @Override
+    public void agregarObservador(Observador observador) {
+        observadores.add(observador);
+    }
+
+    @Override
+    public void eliminarObservador(Observador observador) {
+        observadores.add(observador);
+    }
+
+    @Override
+    public void notificarObservadores(String mensaje) {
+        for(Observador observador : observadores) {
+            observador.actualizar(mensaje);
+        }
+    }
+
     // ========================
     // Gestión de Usuarios
     // ========================
@@ -68,6 +89,7 @@ public class Aerovuelos {
         Usuario usuario;
         if ("Cliente".equals(tipo)) {
             usuario = new Cliente(nombreUsuario, contraseña, nombre, apellido, formaDePago);
+            agregarObservador((Cliente)usuario);
         } else if ("Administrador".equals(tipo)) {
             usuario = new Administrador(nombreUsuario, contraseña, nombre, apellido);
         } else {
@@ -97,6 +119,7 @@ public class Aerovuelos {
 
     public void eliminarCliente(String llave) {
         baseUsuarios.remove(llave);
+        eliminarObservador((Cliente)buscarCliente(llave));
         guardarUsuarios(baseUsuarios);
     }
 
@@ -130,6 +153,7 @@ public class Aerovuelos {
         baseVuelos.add(vuelo);
         guardarVuelos(baseVuelos);
         System.out.println("Vuelo añadido exitosamente.\n");
+        notificarObservadores("Se ha añadido un nuevo vuelo: " + numVuelo);
     }
 
     /** Método para ver todos los vuelos en el sistema */
@@ -152,10 +176,11 @@ public class Aerovuelos {
             System.out.println("Índice no válido.");
             return;
         }
-
+        notificarObservadores("Se ha eliminado el vuelo: " + baseVuelos.get(num - 1).getNumVuelo());
         baseVuelos.remove(num - 1);
         guardarVuelos(baseVuelos);
         System.out.println("Vuelo eliminado exitosamente.");
+        
     }
 
     public void comprarVuelo(Cliente cliente, String numVuelo, String numeroAsiento) {
@@ -186,6 +211,7 @@ public class Aerovuelos {
         baseHoteles.add(hotel);
         guardarHoteles(baseHoteles); // Guardar cambios en el archivo
         System.out.println("Hotel añadido exitosamente.\n");
+        notificarObservadores("Se ha añadido un nuevo hotel: "+ nombre);
     }
 
     public void verHoteles() {
@@ -207,6 +233,7 @@ public class Aerovuelos {
             return;
         }
 
+        notificarObservadores("Se ha eliminado el hotel: "+ baseHoteles.get(num - 1).getNombre());
         baseHoteles.remove(num - 1);
         guardarHoteles(baseHoteles); // Guardar cambios en el archivo
         System.out.println("Hotel eliminado exitosamente.");
@@ -260,6 +287,7 @@ public class Aerovuelos {
                 HashMap<String, Usuario> datosLeidos = (HashMap<String, Usuario>) archivo.readObject();
                 if (datosLeidos != null) {
                     for (Usuario usuario : datosLeidos.values()) {
+                        agregarObservador((Cliente)usuario);
                         usuarios.put(usuario.getNombreUsuario(), usuario);
                     }
                 }

@@ -14,6 +14,7 @@ import java.util.Scanner;
  * @version 2024.11.17
  */
 
+
 public class Menu {
 
     public static void main(String[] args) {

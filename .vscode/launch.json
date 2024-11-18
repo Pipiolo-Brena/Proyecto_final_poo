@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Menu",
+            "request": "launch",
+            "mainClass": "Menu.Menu",
+            "projectName": "Proyecto_final_poo_6fa2f751"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

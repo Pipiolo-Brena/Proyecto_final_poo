@@ -3,7 +3,6 @@ package Menu;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import Empresa.Aerovuelos;
@@ -17,11 +16,11 @@ import Usuarios.*;
  */
 
 public class GestionMenu {
-    private static Scanner scanner = new Scanner(System.in);
-    private static Aerovuelos compania = Aerovuelos.getInstancia( "Aeroviajes FI-UNAM",  "5543651234",  "Lunes-Sábado, 09:00-22:00 hrs"); // Ejemplo
 
+    private static Aerovuelos compania = Aerovuelos.getInstancia( "Aeroviajes FI-UNAM",  "5543651234",  "Lunes-Sábado, 09:00-22:00 hrs"); // Ejemplo
+    
     /** Opción 1 del menú */
-    public static void iniciarSesion() {
+    public static void iniciarSesion(Scanner scanner) {
         compania.verUsuarios();
         System.out.print("Ingrese su nombre de usuario: ");
         String nombreUsuario = scanner.nextLine();
@@ -33,11 +32,11 @@ public class GestionMenu {
                 Cliente cliente = (Cliente) usuario;
                 espacios();
                 cliente.mostrarNotificaciones();
-                menuCliente(cliente);
+                menuCliente(scanner,cliente);
             } else {
                 Administrador administrador = (Administrador) usuario;
                 espacios();
-                menuAdministrador(administrador);
+                menuAdministrador(scanner,administrador);
             }
         } else {
             System.out.println("Usuario o contraseña incorrectas.");
@@ -45,14 +44,14 @@ public class GestionMenu {
     }
 
     /** Opción 2 del menú */
-    public static void registrarse() {
+    public static void registrarse(Scanner scanner) {
         System.out.println("Registrarse como cliente o como administrador? (c/a)");
         char opcion = scanner.next().charAt(0);
         scanner.nextLine();
 
         switch (opcion) {
             case 'c', 'C' -> {
-                String nombreUsuario = ingresarNombreUsuario();
+                String nombreUsuario = ingresarNombreUsuario(scanner);
                 System.out.print("Ingrese su contraseña: ");
                 String contraseña = scanner.nextLine();
                 System.out.print("Ingrese su nombre: ");
@@ -70,7 +69,7 @@ public class GestionMenu {
                     default -> formaDePago = null;
                 }
 
-                compania.registrarUsuario("Cliente", nombreUsuario, contraseña, nombre, apellido, formaDePago);
+                compania.registrarUsuario("Cliente", nombreUsuario, contraseña, nombre, apellido, formaDePago,scanner);
                 System.out.println("Incia sesion con los datos ingresados");
             }
             case 'a', 'A' -> {
@@ -80,7 +79,7 @@ public class GestionMenu {
                     System.out.println("Clave incorrecta\n");
                     return;
                 }
-                String nombreUsuario = ingresarNombreUsuario();
+                String nombreUsuario = ingresarNombreUsuario(scanner);
                 System.out.print("Ingrese su contraseña: ");
                 String contraseña = scanner.nextLine();
                 System.out.print("Ingrese su nombre: ");
@@ -88,12 +87,12 @@ public class GestionMenu {
                 System.out.print("Ingrese su apellido: ");
                 String apellido = scanner.nextLine();
 
-                compania.registrarUsuario("Administrador", nombreUsuario, contraseña, nombre, apellido, null);
+                compania.registrarUsuario("Administrador", nombreUsuario, contraseña, nombre, apellido, null,scanner);
                 espacios();
 
                 Usuario admin = compania.buscarUsuario(nombreUsuario);
                 if (admin instanceof Administrador) {
-                    menuAdministrador((Administrador) admin);
+                    menuAdministrador(scanner,(Administrador) admin);
                 } else {
                     System.out.println("Error: No se pudo encontrar el administrador registrado.");
                 }
@@ -101,7 +100,7 @@ public class GestionMenu {
         }
     }
 
-    private static String ingresarNombreUsuario() {
+    private static String ingresarNombreUsuario(Scanner scanner) {
         String nombreUsuario = null;
         boolean valido = false;
         while(!valido) {
@@ -120,50 +119,41 @@ public class GestionMenu {
     // ===================
     // Menú cliente
     // ===================
-    private static void menuCliente(Cliente cliente) {
-    int opcion = -1;
-    do {
-        espacios();
-        System.out.println("1. Ver vuelos disponibles");
-        System.out.println("2. Ver hoteles disponibles");
-        System.out.println("3. Comprar vuelo");
-        System.out.println("4. Comprar hotel");
-        System.out.println("5. Comprar paquete de vuelo + hotel");
-        System.out.println("6. Salir");
+    public static void menuCliente(Scanner scanner, Cliente cliente) {
+        int opcion = -1;
+        do {
+            System.out.println("1. Ver vuelos disponibles");
+            System.out.println("2. Ver hoteles disponibles");
+            System.out.println("3. Comprar vuelo");
+            System.out.println("4. Comprar hotel");
+            System.out.println("5. Comprar paquete de vuelo + hotel");
+            System.out.println("6. Salir");
 
-        try {
-            System.out.print("Seleccione una opción: ");
-            if (scanner.hasNextInt()) {  // Verifica si hay un entero en la entrada
+            try {
+                System.out.print("Seleccione una opción: ");
                 opcion = scanner.nextInt();
-            } else {
-                throw new InputMismatchException("Debe ingresar un número válido."); // Lanzar excepción si no es entero
-            }
-            scanner.nextLine(); // Limpia el buffer después de leer el entero
-            espacios();
-        } catch (InputMismatchException e) {
-            System.out.println("Error: Entrada de datos inválida.");
-            scanner.nextLine(); // Limpia el buffer si ocurre un error
-            continue;           // Reinicia el ciclo
-        } catch (NoSuchElementException e) {
-            System.out.println("Error: No se encontró entrada. Reinicie el programa.");
-            break;              // Salir del ciclo si ocurre un error crítico
-        }
+                scanner.nextLine(); // Limpiar el buffer
 
-        switch (opcion) {
-            case 1 -> compania.verVuelos();
-            case 2 -> compania.verHoteles();
-            case 3 -> comprarVuelo(cliente);
-            case 4 -> reservarHotel(cliente);
-            case 5 -> comprarPaquete(cliente);
-            case 6 -> System.out.println("Gracias por usar el sistema de reservas. ¡Hasta pronto!");
-            default -> System.out.println("Opción no válida. Intente de nuevo.");
-        }
-    } while (opcion != 6);
-}
+                switch (opcion) {
+                    case 1 -> compania.verVuelos();
+                    case 2 -> compania.verHoteles();
+                    case 3 -> comprarVuelo(scanner,cliente);
+                    case 4 -> reservarHotel(scanner,cliente);
+                    case 5 -> comprarPaquete(scanner,cliente);
+                    case 6 -> System.out.println("Gracias por usar el sistema de reservas. ¡Hasta pronto!");
+                    default -> System.out.println("Opción no válida. Intente de nuevo.");
+                }
+            } catch (Exception e) {
+                System.out.println("Error: Entrada de datos inválida.");
+                scanner.nextLine();  // Limpiar el buffer
+            }
+        } while (opcion != 6);
+    }
+
 
     
 
-    private static void comprarVuelo(Cliente cliente) {
+    private static void comprarVuelo(Scanner scanner,Cliente cliente) {
         if (Aerovuelos.hayVuelos()) {
             System.out.println("No hay vuelos disponibles");
             return;
@@ -177,7 +167,7 @@ public class GestionMenu {
         compania.comprarVuelo(cliente, numVuelo, numeroAsiento);
     }
 
-    private static void reservarHotel(Cliente cliente) {
+    private static void reservarHotel(Scanner scanner,Cliente cliente) {
         if (Aerovuelos.hayVuelos()) {
             System.out.println("No hay hoteles disponibles");
             return;
@@ -189,7 +179,7 @@ public class GestionMenu {
         }
     }
 
-    private static void comprarPaquete(Cliente cliente) {
+    private static void comprarPaquete(Scanner scanner,Cliente cliente) {
         if (Aerovuelos.hayVuelos() || Aerovuelos.hayHoteles()) {
             System.out.println("No hay disponinibilidad de algun hotel o de algun vuelo");
             return ;
@@ -208,7 +198,7 @@ public class GestionMenu {
     // ===================
     // Menú administrador
     // ===================
-    private static void menuAdministrador(Administrador administrador) {
+    private static void menuAdministrador(Scanner scanner,Administrador administrador) {
         int opcion = -1;
         do {
             espacios();
@@ -226,16 +216,16 @@ public class GestionMenu {
                 espacios();
             }
             switch(opcion) {
-                case 1 -> menuGestionVuelos();
-                case 2 -> menuGestionHoteles();
-                case 3 -> menuGestionClientes();
+                case 1 -> menuGestionVuelos(scanner);
+                case 2 -> menuGestionHoteles(scanner);
+                case 3 -> menuGestionClientes(scanner);
                 case 4 -> System.out.println("Saliendo del sistema como administrador.");
                 default -> System.out.println("Opción no válida. Intente de nuevo.");
             }
         } while(opcion != 4);
     }
 
-    private static void menuGestionVuelos() {
+    private static void menuGestionVuelos(Scanner scanner) {
         int opcion = -1;
         do {
             espacios();
@@ -253,8 +243,8 @@ public class GestionMenu {
                 espacios();
             }
             switch (opcion) {
-                case 1 -> agregarVuelo();
-                case 2 -> compania.eliminarVuelo();
+                case 1 -> agregarVuelo( scanner);
+                case 2 -> compania.eliminarVuelo( scanner);
                 case 3 -> compania.verVuelos();
                 case 4 -> System.out.println("Saliendo de la gestión de vuelos.");
                 default -> System.out.println("Opción no válida. Intente de nuevo.");
@@ -262,7 +252,7 @@ public class GestionMenu {
         } while(opcion != 4);
     }
 
-    private static void agregarVuelo() {
+    private static void agregarVuelo(Scanner scanner) {
         scanner.nextLine();
         System.out.print("Ingrese la aerolínea: ");
         String aerolinea = scanner.nextLine();
@@ -288,7 +278,7 @@ public class GestionMenu {
         compania.añadirVuelo((vueloNacional ? "Nacional" : "Internacional"), aerolinea, numVuelo, origen, destino, fechaSalida, precio, escalas, escalas, vueloNacional, requiereVisa);
     }
 
-    private static void menuGestionHoteles() {
+    private static void menuGestionHoteles(Scanner scanner) {
         int opcion = -1;
         do {
             espacios();
@@ -306,8 +296,8 @@ public class GestionMenu {
                 espacios();
             }
             switch (opcion) {
-                case 1 -> agregarHotel();
-                case 2 -> compania.eliminarHotel();
+                case 1 -> agregarHotel( scanner);
+                case 2 -> compania.eliminarHotel(scanner);
                 case 3 -> compania.verHoteles();
                 case 4 -> System.out.println("Saliendo de la gestión de hoteles.");
                 default -> System.out.println("Opción no válida. Intente de nuevo.");
@@ -315,7 +305,7 @@ public class GestionMenu {
         } while(opcion != 4);
     }
 
-    private static void agregarHotel() {
+    private static void agregarHotel(Scanner scanner) {
         scanner.nextLine();
         System.out.print("Ingrese el nombre del hotel: ");
         String nombre = scanner.nextLine();
@@ -329,7 +319,7 @@ public class GestionMenu {
         compania.añadirHotel(nombre, ubicacion, precio, habitacionesDisponibles);
     }
 
-    private static void menuGestionClientes() {
+    private static void menuGestionClientes(Scanner scanner) {
         int opcion = -1;
         do {
             espacios();

@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import Extras.Hoteles;
 import Extras.Observador;
@@ -39,7 +40,7 @@ public class Cliente extends Usuario implements Observador {
     private transient GestorPagos gestorDePagos;
     private MetodosPago metodoSeleccionado;
 
-    public Cliente(String nombreUsuario, String contraseña, String nombre, String apellido, String metodoDePago) {
+    public Cliente(String nombreUsuario, String contraseña, String nombre, String apellido, String metodoDePago,Scanner scanner) {
         super(nombreUsuario, contraseña, nombre, apellido);
         this.baseVuelos = new ArrayList<>();
         this.baseHoteles = new ArrayList<>();
@@ -47,7 +48,7 @@ public class Cliente extends Usuario implements Observador {
         this.movimientos = new ArrayList<>();
         
         this.gestorDePagos = new GestorPagos();
-        this.metodoSeleccionado = agregarMetodoPago(metodoDePago);
+        this.metodoSeleccionado = agregarMetodoPago(scanner,metodoDePago);
         this.notificaciones= new ArrayList<>();
     }
 
@@ -97,8 +98,8 @@ public class Cliente extends Usuario implements Observador {
     }
 
     // Métodos adicionales
-    public MetodosPago agregarMetodoPago(String nombreMetodo) {
-        return gestorDePagos.registrarMetodoPago(nombreMetodo);
+    public MetodosPago agregarMetodoPago(Scanner scanner,String nombreMetodo) {
+        return gestorDePagos.registrarMetodoPago(scanner,nombreMetodo);
     }
 
     public void realizarPago(double monto) {

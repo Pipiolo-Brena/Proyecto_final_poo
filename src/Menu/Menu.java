@@ -17,34 +17,37 @@ import java.util.Scanner;
 
 public class Menu {
 
+    private static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int opcion;
+        mostrarMenu();
+    }
+
+    private static void mostrarMenu() {
+        int opcion = -1;
 
         do {
-            System.out.println("");
-            System.out.println("");
-            System.out.println("");
-            System.out.println("Bienvenido al Sistema de Reservas de Vuelos y Hoteles.");
-            System.out.println("1.- Iniciar sesión");
-            System.out.println("2.- Registrarse");
-            System.out.println("3.- Salir");
+            System.out.println("Bienvenido al sistema de reservas");
+            System.out.println("Seleccione una opción:");
+            System.out.println("1. Iniciar sesión");
+            System.out.println("2. Registrarse");
+            System.out.println("3. Salir");
+
             try {
-                System.out.println("Seleccione una opción: ");
+                System.out.print("Seleccione una opción: ");
                 opcion = scanner.nextInt();
-                scanner.nextLine();
-            } catch(InputMismatchException e) {
-                System.out.println("Error: Entrada inválida. Por favor ingrese un número válido.");
-                opcion = -1;
-                scanner.nextLine();
+                scanner.nextLine(); // Limpiar el buffer después de nextInt()
+
+                switch (opcion) {
+                    case 1 -> GestionMenu.iniciarSesion(scanner);
+                    case 2 -> GestionMenu.registrarse(scanner);
+                    case 3 -> System.out.println("Gracias por usar el sistema. ¡Hasta luego!");
+                    default -> System.out.println("Opción no válida. Intente de nuevo.");
+                }
+            } catch (Exception e) {
+                System.out.println("Entrada no válida. Intente de nuevo.");
+                scanner.nextLine(); // Limpiar el buffer en caso de error
             }
-            switch (opcion) {
-                case 1 -> GestionMenu.iniciarSesion();
-                case 2 -> GestionMenu.registrarse();
-                case 3 -> System.out.println("Gracias por usar el sistema.");
-                default -> System.out.println("Opción no válida. Intente de nuevo.");
-            }   
-        } while(opcion != 3);
-        scanner.close();
+        } while (opcion != 3);
     }
 }

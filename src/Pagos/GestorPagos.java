@@ -29,8 +29,7 @@ public class GestorPagos implements Serializable {
         }
     }
 
-    public MetodosPago registrarMetodoPago(String nombreMetodo) {
-        Scanner scanner = new Scanner(System.in);
+    public MetodosPago registrarMetodoPago(Scanner scanner,String nombreMetodo) {
         MetodosPago nuevoMetodo = null;
 
         switch(nombreMetodo) {
@@ -71,7 +70,6 @@ public class GestorPagos implements Serializable {
             }
             default -> {
                 System.out.println("Método de pago no reconocido.");
-                scanner.close();
                 return null;
             }
         }
@@ -80,8 +78,6 @@ public class GestorPagos implements Serializable {
             metodosDisponibles.put(nombreMetodo, nuevoMetodo);
             System.out.println("Método de pago registrado exitosamente.");
         }
-
-        scanner.close();
         return nuevoMetodo;
     }
 

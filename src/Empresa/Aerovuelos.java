@@ -44,7 +44,6 @@ public class Aerovuelos implements Sujeto {
     private final String ARCHIVO_VUELOS = "vuelos.dat";
     private final String ARCHIVO_HOTELES = "hoteles.dat";
 
-    public static Scanner entrada = new Scanner(System.in);
     private static Aerovuelos instancia; // Instancia Singleton
 
     public Aerovuelos(String nombre, String telefono, String horario) {
@@ -88,10 +87,10 @@ public class Aerovuelos implements Sujeto {
     // Gestión de Usuarios
     // ========================
 
-    public void registrarUsuario(String tipo, String nombreUsuario, String contraseña, String nombre, String apellido, String formaDePago) {
+    public void registrarUsuario(String tipo, String nombreUsuario, String contraseña, String nombre, String apellido, String formaDePago,Scanner scanner) {
         Usuario usuario = null; // Inicializamos en null para evitar referencias no asignadas
         if ("Cliente".equalsIgnoreCase(tipo)) {
-            usuario = new Cliente(nombreUsuario, contraseña, nombre, apellido, formaDePago);
+            usuario = new Cliente(nombreUsuario, contraseña, nombre, apellido, formaDePago,scanner);
             agregarObservador((Cliente) usuario);
         } else if ("Administrador".equalsIgnoreCase(tipo)) {
             usuario = new Administrador(nombreUsuario, contraseña, nombre, apellido);
@@ -138,9 +137,9 @@ public class Aerovuelos implements Sujeto {
         }
         System.out.println("Lista de clientes:");
         int i = 1;
-        for (Map.Entry<String, Usuario> entrada : baseUsuarios.entrySet()) {
-            String numCliente = entrada.getKey();
-            Usuario usuario = entrada.getValue();
+        for (Map.Entry<String, Usuario> scanner : baseUsuarios.entrySet()) {
+            String numCliente = scanner.getKey();
+            Usuario usuario = scanner.getValue();
             
                 System.out.println("Índice: " + i + "  Número de Cliente: " + numCliente + "  " + usuario);
                 i++;
@@ -189,14 +188,14 @@ public class Aerovuelos implements Sujeto {
     }
 
     // Método para eliminar un vuelo
-    public void eliminarVuelo() {
+    public void eliminarVuelo(Scanner scanner) {
         if (!hayVuelos()) {
             System.out.println("No hay vuelos disponibles");
             return;
         }
         verVuelos();
         System.out.println("A partir del índice, ¿Qué vuelo se quiere eliminar?");
-        int num = entrada.nextInt();
+        int num = scanner.nextInt();
 
         if (num < 1 || num > baseVuelos.size()) {
             System.out.println("Índice no válido.");
@@ -261,14 +260,14 @@ public class Aerovuelos implements Sujeto {
         }
     }
 
-    public void eliminarHotel() {
+    public void eliminarHotel(Scanner scanner) {
         if (!hayHoteles()) {
             System.out.println("No hay hoteles disponibles");
             return;
         }
         verHoteles();
         System.out.println("A partir del índice, ¿Qué hotel se quiere eliminar?");
-        int num = entrada.nextInt();
+        int num = scanner.nextInt();
 
         if (num < 1 || num > baseHoteles.size()) {
             System.out.println("Índice no válido.");

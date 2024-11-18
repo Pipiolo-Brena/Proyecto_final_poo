@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.List;
 
 
 /**
@@ -26,7 +27,7 @@ import java.util.Scanner;
  */
 @SuppressWarnings("unused")
 public class Aerovuelos implements Sujeto {
-    public ArrayList<Observador> observadores;
+    public List<Observador> observadores;
 
     /** Atributos de clase */
     private String nombre;
@@ -50,9 +51,11 @@ public class Aerovuelos implements Sujeto {
         this.nombre = nombre;
         this.telefono = telefono;
         this.horario = horario;
+        this.observadores = new ArrayList<>();
         baseUsuarios = leerUsuarios(); // Objetos Usuarios
         baseVuelos = leerVuelos(); // Objetos Vuelo
         baseHoteles = leerHoteles(); // Objetos Hoteles
+
     }
 
     /** Implementación del patrón de diseño Singleton */
@@ -87,10 +90,10 @@ public class Aerovuelos implements Sujeto {
 
     public void registrarUsuario(String tipo, String nombreUsuario, String contraseña, String nombre, String apellido, String formaDePago) {
         Usuario usuario;
-        if ("Cliente".equals(tipo)) {
+        if ("Cliente".equalsIgnoreCase(tipo)) {
             usuario = new Cliente(nombreUsuario, contraseña, nombre, apellido, formaDePago);
             agregarObservador((Cliente)usuario);
-        } else if ("Administrador".equals(tipo)) {
+        } else if ("Administrador".equalsIgnoreCase(tipo)) {
             usuario = new Administrador(nombreUsuario, contraseña, nombre, apellido);
         } else {
             System.out.println("Tipo de usuario no reconocido.");
@@ -118,12 +121,19 @@ public class Aerovuelos implements Sujeto {
     }
 
     public void eliminarCliente(String llave) {
+        if (!hayUsuarios()) {
+            return;
+        }
         baseUsuarios.remove(llave);
         eliminarObservador((Cliente)buscarCliente(llave));
         guardarUsuarios(baseUsuarios);
     }
 
     public void verUsuarios() {
+        if (!hayUsuarios()) {
+            System.out.println("No hay usuarios registrados");
+            return;
+        }
         System.out.println("Lista de clientes:");
         int i = 1;
         for (Map.Entry<String, Usuario> entrada : baseUsuarios.entrySet()) {
@@ -135,6 +145,12 @@ public class Aerovuelos implements Sujeto {
             }
         }
     } // No se muestran los administradores registrados en el sistema.
+
+    // Verifica si hay usuarios registrados
+    public static boolean hayUsuarios() {
+        return baseUsuarios != null && !baseUsuarios.isEmpty();
+    }
+
 
     // ========================
     // Gestión de Vuelos
@@ -158,6 +174,10 @@ public class Aerovuelos implements Sujeto {
 
     /** Método para ver todos los vuelos en el sistema */
     public void verVuelos() {
+        if (!hayVuelos()) {
+            System.out.println("No hay vuelos disponibles");
+            return;
+        }
         System.out.println("Lista de vuelos disponibles:");
         int i = 1;
         for (Vuelo vuelo : baseVuelos) {
@@ -168,6 +188,10 @@ public class Aerovuelos implements Sujeto {
 
     // Método para eliminar un vuelo
     public void eliminarVuelo() {
+        if (!hayVuelos()) {
+            System.out.println("No hay vuelos disponibles");
+            return;
+        }
         verVuelos();
         System.out.println("A partir del índice, ¿Qué vuelo se quiere eliminar?");
         int num = entrada.nextInt();
@@ -184,6 +208,10 @@ public class Aerovuelos implements Sujeto {
     }
 
     public void comprarVuelo(Cliente cliente, String numVuelo, String numeroAsiento) {
+        if (!hayVuelos()) {
+            System.out.println("No hay vuelos disponibles");
+            return;
+        }
         Vuelo vuelo = buscarVuelo(numVuelo);
 
         if(vuelo != null) {
@@ -202,6 +230,10 @@ public class Aerovuelos implements Sujeto {
         return null;
     }
 
+    public static boolean hayVuelos() {
+        return baseVuelos != null && !baseVuelos.isEmpty();
+    }
+
     // ====================
     // Gestión de Hoteles
     // ====================
@@ -215,6 +247,10 @@ public class Aerovuelos implements Sujeto {
     }
 
     public void verHoteles() {
+        if (!hayHoteles()) {
+            System.out.println("No hay hoteles disponibles");
+            return;
+        }
         System.out.println("Lista de hoteles disponibles:");
         int i = 1;
         for (Hoteles hotel : baseHoteles) {
@@ -224,6 +260,10 @@ public class Aerovuelos implements Sujeto {
     }
 
     public void eliminarHotel() {
+        if (!hayHoteles()) {
+            System.out.println("No hay hoteles disponibles");
+            return;
+        }
         verHoteles();
         System.out.println("A partir del índice, ¿Qué hotel se quiere eliminar?");
         int num = entrada.nextInt();
@@ -240,6 +280,10 @@ public class Aerovuelos implements Sujeto {
     }
 
     public void reservarHotel(Cliente cliente, String nombreHotel) {
+        if (!hayHoteles()) {
+            System.out.println("No hay hoteles disponibles");
+            return;
+        }
         Hoteles hotel = buscarHotel(nombreHotel);
 
         if(hotel != null) {
@@ -256,6 +300,10 @@ public class Aerovuelos implements Sujeto {
             }
         }
         return null;
+    }
+
+    public static boolean hayHoteles() {
+        return baseHoteles != null && !baseHoteles.isEmpty();
     }
 
     // ====================
@@ -287,18 +335,21 @@ public class Aerovuelos implements Sujeto {
                 HashMap<String, Usuario> datosLeidos = (HashMap<String, Usuario>) archivo.readObject();
                 if (datosLeidos != null) {
                     for (Usuario usuario : datosLeidos.values()) {
-                        agregarObservador((Cliente)usuario);
+                        // Verificar si el usuario es un Cliente antes de agregarlo como Observador
+                        if (usuario instanceof Cliente) {
+                            agregarObservador((Cliente) usuario); // Solo hacer cast si es Cliente
+                        }
                         usuarios.put(usuario.getNombreUsuario(), usuario);
                     }
                 }
             } catch (IOException | ClassNotFoundException e) {
-                System.err.println("" );
+                System.err.println("Error al leer el archivo de usuarios.");
             }
         } else {
-            System.out.println("");
+            System.out.println("El archivo de usuarios no existe.");
         }
         return usuarios;
-    }
+    } 
 
     public void agregarUsuario(String numCliente, Usuario cliente) {
         baseUsuarios.put(numCliente,cliente);

@@ -22,7 +22,7 @@ public class Vuelo implements Serializable{
     private String numVuelo;
     private String origen;
     private String destino;
-    private LocalDateTime fechaSalida;
+    private transient LocalDateTime fechaSalida;
     private Double precio;
     private double precioVip;
     private int escalas;

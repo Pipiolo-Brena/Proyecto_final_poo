@@ -1,5 +1,7 @@
 package Vuelos;
 
+import java.io.Serializable;
+
 /**
  * Representa un asiento de un vuelo.
  * 
@@ -7,7 +9,8 @@ package Vuelos;
  * @version 2024.11.17
  */
 
-public class Asiento {
+public class Asiento implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String numero; // número del asiento
     private boolean esVIP; // indica si es VIP
     private boolean ocupado; // indica si está ocupado

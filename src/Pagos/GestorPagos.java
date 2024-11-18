@@ -1,5 +1,6 @@
 package Pagos;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +10,8 @@ import Pagos.Efectivo.OXXO;
 import Pagos.Linea.TarjetaCredito;
 import Pagos.Linea.TerjataDebito;
 
-public class GestorPagos {
+public class GestorPagos implements Serializable {
+    private static final long serialVersionUID = 1L;
     private MetodosPago metodoSeleccionado;
     private Map<String, MetodosPago> metodosDisponibles;
 

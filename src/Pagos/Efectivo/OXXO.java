@@ -4,13 +4,16 @@
  */
 package Pagos.Efectivo;
 
+import java.io.Serializable;
+
 import Pagos.PagosEfectivo;
 
 /**
  *
  * @author PC
  */
-public class OXXO extends PagosEfectivo {
+public class OXXO extends PagosEfectivo  implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String codigoPago;
 
     //constructor

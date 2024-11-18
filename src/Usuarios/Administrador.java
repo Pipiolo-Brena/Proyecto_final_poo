@@ -9,6 +9,7 @@ package Usuarios;
  * @author PC
  */
 public class Administrador extends Usuario {
+    private static final long serialVersionUID = 1L;
     private String nombre;
     private String apellido;
     

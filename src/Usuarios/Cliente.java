@@ -28,6 +28,7 @@ import Usuarios.Datos.*;
  * 
  */
 public class Cliente extends Usuario implements Observador {
+    private static final long serialVersionUID = 1L;
     private List<String> notificaciones;
     
     private List<Vuelo> baseVuelos; // Vuelos reservados
@@ -35,7 +36,7 @@ public class Cliente extends Usuario implements Observador {
     private List<Ticket> ticketsGenerados; // Tickets generados
     private List<Movimiento> movimientos; // Historial de movimientos
     
-    private GestorPagos gestorDePagos;
+    private transient GestorPagos gestorDePagos;
     private MetodosPago metodoSeleccionado;
 
     public Cliente(String nombreUsuario, String contraseña, String nombre, String apellido, String metodoDePago) {
@@ -47,6 +48,7 @@ public class Cliente extends Usuario implements Observador {
         
         this.gestorDePagos = new GestorPagos();
         this.metodoSeleccionado = agregarMetodoPago(metodoDePago);
+        this.notificaciones= new ArrayList<>();
     }
 
     // Métodos de Observer para implementar el patrón de diseño Observer

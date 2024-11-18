@@ -4,6 +4,7 @@
  */
 package Pagos.Linea;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import Pagos.PagosLinea;
 
@@ -11,7 +12,8 @@ import Pagos.PagosLinea;
  *
  * @author PC
  */
-public class TerjataDebito extends PagosLinea {
+public class TerjataDebito extends PagosLinea implements Serializable {
+    private static final long serialVersionUID = 1L;
     private double saldo;
 
     public TerjataDebito(double monto, String numeroTarjeta, String titular, LocalDateTime fechaExpiracion, int cvv, double saldoInicial) {

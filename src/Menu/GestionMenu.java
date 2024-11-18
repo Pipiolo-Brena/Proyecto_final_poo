@@ -71,7 +71,7 @@ public class GestionMenu {
                 }
 
                 compania.registrarUsuario("Cliente", nombreUsuario, contraseña, nombre, apellido, formaDePago);
-                System.out.println("Incia sesion con los datos ingresados");
+                System.out.println("Inicia sesion con los datos ingresados");
             }
             case 'a', 'A' -> {
                 System.out.println("Ingresa la palabra clave de seguridad");

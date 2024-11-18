@@ -68,7 +68,7 @@ public class GestionMenu {
                     default -> formaDePago = null;
                 }
 
-                compania.registrarUsuario("Cliente", nombreUsuario, contraseña, nombre, apellido, formaDePago);
+                compania.registrarUsuario("Cliente", nombreUsuario, contraseña, nombre, apellido, formaDePago,scanner);
                 System.out.println("Incia sesion con los datos ingresados");
             }
             case 'a', 'A' -> {

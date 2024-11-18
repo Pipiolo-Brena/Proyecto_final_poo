@@ -21,7 +21,6 @@ public class GestionMenu {
     
     /** Opción 1 del menú */
     public static void iniciarSesion(Scanner scanner) {
-        compania.verUsuarios();
         System.out.print("Ingrese su nombre de usuario: ");
         String nombreUsuario = scanner.nextLine();
         System.out.print("Ingrese su contraseña: ");
@@ -154,11 +153,6 @@ public class GestionMenu {
     
 
     private static void comprarVuelo(Scanner scanner,Cliente cliente) {
-        if (Aerovuelos.hayVuelos()) {
-            System.out.println("No hay vuelos disponibles");
-            return;
-        }
-        scanner.nextLine();
         compania.verVuelos();
         System.out.println("Ingrese el número de vuelo que desea comprar:");
         String numVuelo = scanner.nextLine();

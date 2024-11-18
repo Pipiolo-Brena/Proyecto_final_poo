@@ -209,10 +209,6 @@ public class Aerovuelos implements Sujeto {
     }
 
     public void comprarVuelo(Cliente cliente, String numVuelo, String numeroAsiento) {
-        if (!hayVuelos()) {
-            System.out.println("No hay vuelos disponibles");
-            return;
-        }
         Vuelo vuelo = buscarVuelo(numVuelo);
 
         if(vuelo != null) {
@@ -357,7 +353,6 @@ public class Aerovuelos implements Sujeto {
     }
 
     private void guardarUsuarios(HashMap<String, Usuario> usuarios) {
-        System.out.println("Guardando usuarios: " + usuarios);
         try (ObjectOutputStream archivo = new ObjectOutputStream(new FileOutputStream(ARCHIVO_USUARIOS))) {
             archivo.writeObject(usuarios);
         } catch (IOException e) {

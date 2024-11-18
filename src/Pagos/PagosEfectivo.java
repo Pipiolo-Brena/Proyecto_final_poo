@@ -4,6 +4,7 @@
  */
 package Pagos;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -11,6 +12,8 @@ import java.util.Random;
  * @author PC
  */
 public abstract class PagosEfectivo extends MetodosPago {
+    private static final long serialVersionUID = 1L;
+
     protected String codigoPago;
     protected boolean pagado;
 

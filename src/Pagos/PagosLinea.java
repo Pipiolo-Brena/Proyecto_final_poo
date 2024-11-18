@@ -4,13 +4,16 @@
  */
 package Pagos;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  *
  * @author PC
  */
-public abstract class PagosLinea extends MetodosPago {
+public abstract class PagosLinea extends MetodosPago   {
+    private static final long serialVersionUID = 1L;
+
     protected String numeroTarjeta;
     protected String titular;
     protected LocalDateTime fechaExpiracion;

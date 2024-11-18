@@ -12,7 +12,7 @@ import Pagos.PagosLinea;
  *
  * @author PC
  */
-public class TerjataDebito extends PagosLinea implements Serializable {
+public class TerjataDebito extends PagosLinea {
     private static final long serialVersionUID = 1L;
     private double saldo;
 

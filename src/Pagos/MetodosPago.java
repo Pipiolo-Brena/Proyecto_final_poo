@@ -4,11 +4,15 @@
  */
 package Pagos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author PC
  */
-public abstract class MetodosPago {
+public abstract class MetodosPago implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     protected double monto; // Monto a pagar 
     
     public double getMonto() {

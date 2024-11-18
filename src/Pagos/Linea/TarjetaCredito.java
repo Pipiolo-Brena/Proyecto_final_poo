@@ -12,7 +12,7 @@ import Pagos.PagosLinea;
  *
  * @author PC
  */
-public class TarjetaCredito extends PagosLinea implements Serializable  {
+public class TarjetaCredito extends PagosLinea   {
     private static final long serialVersionUID = 1L;
     private double saldoDeuda;
 

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Extras.Hoteles;
+import Extras.Observador;
 import Pagos.GestorPagos;
 import Pagos.MetodosPago;
 import Vuelos.Vuelo;
@@ -26,7 +27,9 @@ import Usuarios.Datos.*;
  * @version 15.11.2024
  * 
  */
-public class Cliente extends Usuario {
+public class Cliente extends Usuario implements Observador {
+    private List<String> notificaciones;
+    
     private List<Vuelo> baseVuelos; // Vuelos reservados
     private List<Hoteles> baseHoteles; // Hoteles reservados
     private List<Ticket> ticketsGenerados; // Tickets generados
@@ -44,6 +47,20 @@ public class Cliente extends Usuario {
         
         this.gestorDePagos = new GestorPagos();
         this.metodoSeleccionado = agregarMetodoPago(metodoDePago);
+    }
+
+    // Métodos de Observer para implementar el patrón de diseño Observer
+    @Override
+    public void actualizar(String mensaje) {
+        notificaciones.add(mensaje);
+    }
+
+    public void mostrarNotificaciones() {
+        System.out.println("Notificaciones:");
+        for(String notificacion : notificaciones) {
+            System.out.println("- " + notificacion);
+        }
+        notificaciones.clear();
     }
 
     // Getters y setters

@@ -89,20 +89,22 @@ public class Aerovuelos implements Sujeto {
     // ========================
 
     public void registrarUsuario(String tipo, String nombreUsuario, String contraseña, String nombre, String apellido, String formaDePago) {
-        Usuario usuario;
+        Usuario usuario = null; // Inicializamos en null para evitar referencias no asignadas
         if ("Cliente".equalsIgnoreCase(tipo)) {
             usuario = new Cliente(nombreUsuario, contraseña, nombre, apellido, formaDePago);
-            agregarObservador((Cliente)usuario);
+            agregarObservador((Cliente) usuario);
         } else if ("Administrador".equalsIgnoreCase(tipo)) {
             usuario = new Administrador(nombreUsuario, contraseña, nombre, apellido);
         } else {
             System.out.println("Tipo de usuario no reconocido.");
-            return;
+            return; // Salimos si el tipo no es válido
         }
+    
         baseUsuarios.put(nombreUsuario, usuario);
-        guardarUsuarios(baseUsuarios);
+        guardarUsuarios(baseUsuarios); // Serializa la información actualizada
         System.out.println("Registro exitoso.\n");
     }
+    
 
     public boolean verificarUsuario(String nombreUsuario, String contraseña) {
         Usuario usuario = baseUsuarios.get(nombreUsuario);
@@ -139,10 +141,10 @@ public class Aerovuelos implements Sujeto {
         for (Map.Entry<String, Usuario> entrada : baseUsuarios.entrySet()) {
             String numCliente = entrada.getKey();
             Usuario usuario = entrada.getValue();
-            if(usuario instanceof Cliente) {
+            
                 System.out.println("Índice: " + i + "  Número de Cliente: " + numCliente + "  " + usuario);
                 i++;
-            }
+            
         }
     } // No se muestran los administradores registrados en el sistema.
 
@@ -356,11 +358,22 @@ public class Aerovuelos implements Sujeto {
     }
 
     private void guardarUsuarios(HashMap<String, Usuario> usuarios) {
+        System.out.println("Guardando usuarios: " + usuarios);
         try (ObjectOutputStream archivo = new ObjectOutputStream(new FileOutputStream(ARCHIVO_USUARIOS))) {
             archivo.writeObject(usuarios);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public void cargarUsuarios() {
+        baseUsuarios = leerUsuarios();
+        System.out.println("Usuarios cargados: ");
+        baseUsuarios.forEach((k, v) -> System.out.println("Usuario: " + k + ", Tipo: " + v.getClass().getSimpleName()));
+    }
+
+    public Usuario buscarUsuario(String nombreUsuario) {
+        return baseUsuarios.get(nombreUsuario);
     }
     
     @SuppressWarnings("unchecked")

@@ -27,7 +27,7 @@ public abstract class Usuario implements GestorDeAcceso, Serializable {
 
     public Usuario(String nombreUsuario, String contraseña, String nombre, String apellido) {
         this.nombreUsuario = nombreUsuario;
-        this.contraseña = hashContraseña(contraseña);
+        this.contraseña = contraseña;
         this.nombre = nombre;
         this.apellido = apellido;
     }
@@ -86,7 +86,7 @@ public abstract class Usuario implements GestorDeAcceso, Serializable {
     // Los métodos abstractos se definen en las clases concretas
     @Override
     public boolean validarContraseña(String contraseña) {
-        return this.contraseña.equals(hashContraseña(contraseña));
+        return this.contraseña.equals(contraseña);
     }
 
     public boolean verificarCodigo(String codigoIngresado) {
@@ -99,6 +99,12 @@ public abstract class Usuario implements GestorDeAcceso, Serializable {
 
     @Override
     public void recuperarContraseña(String nuevaContraseña){
-        this.contraseña = hashContraseña(nuevaContraseña);
+        this.contraseña = nuevaContraseña;
     }   
+
+    @Override
+
+    public String toString() {
+        return contraseña;
+    }
 }

@@ -3,6 +3,7 @@ package Menu;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import Empresa.Aerovuelos;
@@ -21,6 +22,7 @@ public class GestionMenu {
 
     /** Opción 1 del menú */
     public static void iniciarSesion() {
+        compania.verUsuarios();
         System.out.print("Ingrese su nombre de usuario: ");
         String nombreUsuario = scanner.nextLine();
         System.out.print("Ingrese su contraseña: ");
@@ -69,15 +71,12 @@ public class GestionMenu {
                 }
 
                 compania.registrarUsuario("Cliente", nombreUsuario, contraseña, nombre, apellido, formaDePago);
-                espacios();
-                Cliente cliente = (Cliente)compania.buscarCliente(nombreUsuario);
-                cliente.mostrarNotificaciones();
-                menuCliente(cliente);
+                System.out.println("Incia sesion con los datos ingresados");
             }
             case 'a', 'A' -> {
                 System.out.println("Ingresa la palabra clave de seguridad");
-                String clave=scanner.nextLine();
-                if (!("20VCM19".equals(clave))){
+                String clave = scanner.nextLine();
+                if (!"20VCM19".equals(clave)) {
                     System.out.println("Clave incorrecta\n");
                     return;
                 }
@@ -88,10 +87,16 @@ public class GestionMenu {
                 String nombre = scanner.nextLine();
                 System.out.print("Ingrese su apellido: ");
                 String apellido = scanner.nextLine();
-                
+
                 compania.registrarUsuario("Administrador", nombreUsuario, contraseña, nombre, apellido, null);
                 espacios();
-                menuAdministrador((Administrador)compania.buscarCliente(nombreUsuario));
+
+                Usuario admin = compania.buscarUsuario(nombreUsuario);
+                if (admin instanceof Administrador) {
+                    menuAdministrador((Administrador) admin);
+                } else {
+                    System.out.println("Error: No se pudo encontrar el administrador registrado.");
+                }
             }
         }
     }
@@ -116,44 +121,46 @@ public class GestionMenu {
     // Menú cliente
     // ===================
     private static void menuCliente(Cliente cliente) {
-        int opcion = -1;
-        do {
+    int opcion = -1;
+    do {
+        espacios();
+        System.out.println("1. Ver vuelos disponibles");
+        System.out.println("2. Ver hoteles disponibles");
+        System.out.println("3. Comprar vuelo");
+        System.out.println("4. Comprar hotel");
+        System.out.println("5. Comprar paquete de vuelo + hotel");
+        System.out.println("6. Salir");
+
+        try {
+            System.out.print("Seleccione una opción: ");
+            if (scanner.hasNextInt()) {  // Verifica si hay un entero en la entrada
+                opcion = scanner.nextInt();
+            } else {
+                throw new InputMismatchException("Debe ingresar un número válido."); // Lanzar excepción si no es entero
+            }
+            scanner.nextLine(); // Limpia el buffer después de leer el entero
             espacios();
-            System.out.println("1. Ver vuelos disponibles");
-            System.out.println("2. Ver hoteles disponibles");
-            System.out.println("3. Comprar vuelo");
-            System.out.println("4. Comprar hotel");
-            System.out.println("5. Comprar paquete de vuelo + hotel");
-            System.out.println("6. Salir");
-    
-            try {
-                System.out.print("Seleccione una opción: ");
-                // Verificar si hay un siguiente entero
-                if (scanner.hasNextInt()) {
-                    opcion = scanner.nextInt();  // Leer la opción
-                    espacios();
-                } else {
-                    System.out.println("Error: Entrada no válida. Se esperaba un número.");
-                    scanner.nextLine();  // Limpiar el buffer de entrada
-                    continue;  // Volver al inicio del ciclo
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Entrada de datos inválida.");
-                scanner.nextLine();  // Limpiar el buffer de entrada
-                continue;  // Volver al inicio del ciclo
-            }
-    
-            switch (opcion) {
-                case 1 -> compania.verVuelos();
-                case 2 -> compania.verHoteles();
-                case 3 -> comprarVuelo(cliente);
-                case 4 -> reservarHotel(cliente);
-                case 5 -> comprarPaquete(cliente);
-                case 6 -> System.out.println("Gracias por usar el sistema de reservas. ¡Hasta pronto!");
-                default -> System.out.println("Opción no válida. Intente de nuevo.");
-            }
-        } while (opcion != 6);
-    }
+        } catch (InputMismatchException e) {
+            System.out.println("Error: Entrada de datos inválida.");
+            scanner.nextLine(); // Limpia el buffer si ocurre un error
+            continue;           // Reinicia el ciclo
+        } catch (NoSuchElementException e) {
+            System.out.println("Error: No se encontró entrada. Reinicie el programa.");
+            break;              // Salir del ciclo si ocurre un error crítico
+        }
+
+        switch (opcion) {
+            case 1 -> compania.verVuelos();
+            case 2 -> compania.verHoteles();
+            case 3 -> comprarVuelo(cliente);
+            case 4 -> reservarHotel(cliente);
+            case 5 -> comprarPaquete(cliente);
+            case 6 -> System.out.println("Gracias por usar el sistema de reservas. ¡Hasta pronto!");
+            default -> System.out.println("Opción no válida. Intente de nuevo.");
+        }
+    } while (opcion != 6);
+}
+
     
 
     private static void comprarVuelo(Cliente cliente) {

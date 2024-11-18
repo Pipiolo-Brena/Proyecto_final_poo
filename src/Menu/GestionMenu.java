@@ -30,6 +30,7 @@ public class GestionMenu {
             if(usuario instanceof Cliente) {
                 Cliente cliente = (Cliente) usuario;
                 espacios();
+                cliente.mostrarNotificaciones();
                 menuCliente(cliente);
             } else {
                 Administrador administrador = (Administrador) usuario;
@@ -69,7 +70,9 @@ public class GestionMenu {
 
                 compania.registrarUsuario("Cliente", nombreUsuario, contraseña, nombre, apellido, formaDePago);
                 espacios();
-                menuCliente((Cliente)compania.buscarCliente(nombreUsuario));
+                Cliente cliente = (Cliente)compania.buscarCliente(nombreUsuario);
+                cliente.mostrarNotificaciones();
+                menuCliente(cliente);
             }
             case 'a', 'A' -> {
                 System.out.println("Ingresa la palabra clave de seguridad");
